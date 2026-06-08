@@ -1,25 +1,20 @@
 import { StatusBar, HomeBar } from '../phone/Phone'
-import { byId, img } from '../data/events'
-import { CatTag } from '../ui'
+import { byId, img, posterImg } from '../data/events'
+import { CatTag, EventBar } from '../ui'
 import { X, Flash, Image as ImageIc, Pin, Clock, Arrow, Check } from '../lib/icons'
 
 function ScannerChrome({ nav, scanning = true }) {
   return (
     <>
-      {/* faux camera feed: a poster on a wall */}
-      <img className="feed" src={img('techno')} alt="" />
+      {/* camera feed: the real CITYLIFE poster wall on the street */}
+      <img className="feed" src={posterImg('wall')} alt="" style={{ objectPosition: '35% center' }} />
       <div className="scan-mask" />
       <div className="scan-window">
         <div className="scan-corners"><span /><span /><span /><span /></div>
-        {scanning && <div className="scanline" style={{ top: '50%', animation: 'none' }} />}
-        {/* a tiny poster + qr sitting inside the frame */}
-        <div className="center" style={{ position: 'absolute', inset: '14%' }}>
-          <div style={{ background: '#f4f3ee', borderRadius: 8, padding: 10, width: '74%', transform: 'rotate(-3deg)', boxShadow: '0 10px 30px rgba(0,0,0,.5)' }}>
-            <div style={{ color: '#1b2a78', fontFamily: 'var(--heavy)', fontWeight: 900, fontSize: 15, lineHeight: .95, textTransform: 'uppercase' }}>Society<br />is healing</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', width: 52, height: 52, marginTop: 8, marginLeft: 'auto', background: '#fff' }}>
-              {Array.from({ length: 49 }).map((_, i) => <i key={i} style={{ background: (i * 7 + ((i / 7) | 0) * 3) % 5 < 2 || i % 8 === 0 ? '#0b0b0d' : 'transparent' }} />)}
-            </div>
-          </div>
+        {scanning && <div className="scanline" style={{ top: '50%' }} />}
+        {/* the real Society Is Healing poster (with its own QR) framed inside the reticle */}
+        <div className="center" style={{ position: 'absolute', inset: '12%' }}>
+          <img src={posterImg('society')} alt="" style={{ width: '78%', borderRadius: 6, transform: 'rotate(-3deg)', boxShadow: '0 12px 34px rgba(0,0,0,.55)' }} />
         </div>
       </div>
     </>
@@ -71,15 +66,7 @@ export function ScanResult({ nav, ctx }) {
             <div className="center" style={{ width: 30, height: 30, borderRadius: '50%', background: 'var(--green)' }}><Check s={18} w={3} /></div>
             <div className="eyebrow" style={{ color: 'var(--green)' }}>Poster recognised · event unlocked</div>
           </div>
-          <div className="ecard" onClick={() => nav('detail', { id: ev.id })} style={{ marginBottom: 16 }}>
-            <div className="img" style={{ aspectRatio: '16/9' }}>
-              <img src={img(ev.img)} alt="" />
-              <div className="cat"><CatTag cat={ev.cat} /></div>
-              <div className="meta"><h3>{ev.title}</h3>
-                <div className="row"><span><Pin s={13} /> {ev.venue}</span><span><Clock s={13} /> {ev.time.split(' – ')[0]}</span><b>{ev.price}</b></div>
-              </div>
-            </div>
-          </div>
+          <div style={{ marginBottom: 16 }}><EventBar ev={ev} nav={nav} /></div>
           <div style={{ display: 'flex', gap: 12 }}>
             <button className="btn btn-dark" style={{ flex: '0 0 56px', padding: 0, height: 54 }} onClick={() => ctx.toggle(ev.id)}>♡</button>
             <button className="btn btn-blue" onClick={() => nav('detail', { id: ev.id })}>Open event <Arrow s={18} /></button>

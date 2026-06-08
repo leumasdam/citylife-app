@@ -172,22 +172,47 @@ ul { list-style: none; }
 .sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }
 .sec-head .more { font-size: 13px; color: var(--blue-2); font-weight: 600; }
 
-/* event card (feed) */
-.ecard { position: relative; border-radius: var(--r); overflow: hidden; background: var(--card); border: 1px solid var(--line); }
+/* event card (feed) — poster-forward: 4:5 art on its own bg, text below */
+.ecard { position: relative; border-radius: var(--r); overflow: hidden; background: var(--card); border: 1px solid var(--line); transition: transform .25s, box-shadow .25s; }
+.ecard:active { transform: scale(0.985); }
+.pimg { position: relative; aspect-ratio: 4/5; overflow: hidden; }
+.pimg > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pimg .cat { position: absolute; top: 12px; left: 12px; z-index: 3; }
+.pimg .save { position: absolute; top: 10px; right: 10px; z-index: 3; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.42); backdrop-filter: blur(6px); display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.18); color: #fff; }
+.pimg .live { position: absolute; bottom: 12px; left: 12px; z-index: 3; }
+.ebody { padding: 14px 15px 16px; }
+.ebody h3 { font-family: var(--heavy); font-weight: 900; text-transform: uppercase; font-size: 18px; line-height: 0.98; letter-spacing: -0.01em; color: var(--white); }
+.ebody .row { display: flex; align-items: center; gap: 12px; margin-top: 9px; font-size: 12.5px; color: var(--muted); flex-wrap: wrap; }
+.ebody .row b { color: var(--blue-2); font-weight: 700; }
+.ebody .row .free { color: var(--green); }
+
+/* legacy overlay card (detail hero / banners that overlay text on a photo) */
 .ecard .img { position: relative; aspect-ratio: 16/11; }
 .ecard .img img { width: 100%; height: 100%; object-fit: cover; }
 .ecard .img::after { content:''; position:absolute; inset:0; background: linear-gradient(to top, rgba(8,8,11,0.92), rgba(8,8,11,0.05) 55%); }
-.ecard .cat { position: absolute; top: 12px; left: 12px; z-index: 2; }
-.ecard .save { position: absolute; top: 10px; right: 10px; z-index: 2; width: 34px; height: 34px; border-radius: 50%; background: rgba(0,0,0,0.45); backdrop-filter: blur(6px); display: grid; place-items: center; border: 1px solid var(--line); }
-.ecard .meta { position: absolute; left: 14px; right: 14px; bottom: 12px; z-index: 2; }
-.ecard .meta { color: #fff; }   /* sits on the photo's dark gradient — always white */
+.ecard .img .cat { position: absolute; top: 12px; left: 12px; z-index: 2; }
+.ecard .meta { position: absolute; left: 14px; right: 14px; bottom: 12px; z-index: 2; color: #fff; }
 .ecard .meta h3 { font-family: var(--heavy); font-weight: 900; text-transform: uppercase; font-size: 19px; line-height: 0.98; letter-spacing: -0.01em; }
 .ecard .meta .row { display: flex; align-items: center; gap: 12px; margin-top: 7px; font-size: 12.5px; color: rgba(255,255,255,0.85); }
 .ecard .meta .row b { color: var(--yellow); }
 
+/* horizontal poster card (ebar) */
+.ebar { display: flex; gap: 14px; padding: 10px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); align-items: stretch; }
+.ebar-img { width: 86px; flex: 0 0 86px; aspect-ratio: 4/5; border-radius: 11px; overflow: hidden; }
+.ebar-img img { width: 100%; height: 100%; object-fit: cover; }
+.ebar-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; padding: 2px 0; }
+.ebar-title { font-family: var(--heavy); font-weight: 900; text-transform: uppercase; font-size: 17px; line-height: 0.98; letter-spacing: -0.01em; margin-top: 2px; }
+.ebar-meta { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--muted); }
+.ebar-price { font-size: 12.5px; color: var(--muted); margin-top: auto; }
+.ebar-price b { color: var(--blue-2); } .ebar-price b.free { color: var(--green); }
+
+/* pulsing live dot */
+.livedot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); margin-right: 6px; animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(.7); } }
+
 /* mini list row */
 .erow { display: flex; gap: 13px; align-items: center; padding: 10px 0; }
-.erow .thumb { width: 64px; height: 64px; border-radius: 14px; overflow: hidden; flex: 0 0 auto; border: 1px solid var(--line); }
+.erow .thumb { width: 58px; height: 72px; border-radius: 12px; overflow: hidden; flex: 0 0 auto; border: 1px solid var(--line); }
 .erow .thumb img { width: 100%; height: 100%; object-fit: cover; }
 .erow h4 { font-weight: 700; font-size: 15px; line-height: 1.1; }
 .erow .sub { font-size: 12.5px; color: var(--muted); margin-top: 3px; }

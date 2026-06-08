@@ -1,37 +1,49 @@
-import { CATS, img } from './data/events'
-import { Pin, Clock, Heart, ArrowL, Share, Star } from './lib/icons'
+import { motion } from 'framer-motion'
+import { CATS, img, cover } from './data/events'
+import { Pin, Clock, Heart, ArrowL, Share, Star, Flash } from './lib/icons'
 
 export function CatTag({ cat }) {
   const c = CATS[cat]
   return <span className={`tag ${c.color}`}>{c.label}</span>
 }
 
-export function EventCard({ ev, nav, saved, onSave }) {
+/* poster-forward card: real CITYLIFE poster (4:5, no crop) on its own bg, meta below */
+export function EventCard({ ev, nav, saved, onSave, delay = 0 }) {
+  const c = cover(ev)
   return (
-    <div className="ecard" onClick={() => nav('detail', { id: ev.id })}>
-      <div className="img">
-        <img src={img(ev.img)} alt="" loading="lazy" />
+    <motion.div
+      className="ecard"
+      onClick={() => nav('detail', { id: ev.id })}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '0px 0px -40px 0px' }}
+      transition={{ duration: 0.45, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="pimg" style={{ background: c.bg }}>
+        <img src={c.src} alt={ev.title} loading="lazy" />
         <div className="cat"><CatTag cat={ev.cat} /></div>
-        <button className="save" onClick={(e) => { e.stopPropagation(); onSave?.(ev.id) }}>
+        <button className="save" onClick={(e) => { e.stopPropagation(); onSave?.(ev.id) }} aria-label="Save">
           <Heart s={17} fill={saved ? 'var(--pink)' : 'none'} />
         </button>
-        <div className="meta">
-          <h3>{ev.title}</h3>
-          <div className="row">
-            <span><Pin s={13} /> {ev.venue}</span>
-            <span><Clock s={13} /> {ev.time.split(' – ')[0]}</span>
-            <b>{ev.price}</b>
-          </div>
+        {ev.hot && <span className="live tag glass" style={{ color: '#fff' }}><span className="livedot" /> Selling fast</span>}
+      </div>
+      <div className="ebody">
+        <h3>{ev.title}</h3>
+        <div className="row">
+          <span><Pin s={13} /> {ev.venue}</span>
+          <span><Clock s={13} /> {ev.time.split(' – ')[0]}</span>
+          <b className={ev.priceNum ? '' : 'free'}>{ev.price}</b>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
 export function EventRow({ ev, nav, right }) {
+  const c = cover(ev)
   return (
     <div className="erow" onClick={() => nav?.('detail', { id: ev.id })}>
-      <div className="thumb"><img src={img(ev.img)} alt="" loading="lazy" /></div>
+      <div className="thumb" style={{ background: c.bg }}><img src={c.src} alt="" loading="lazy" /></div>
       <div style={{ minWidth: 0, flex: 1 }}>
         <h4>{ev.title}</h4>
         <div className="sub">{ev.venue} · {ev.area}</div>
@@ -40,6 +52,25 @@ export function EventRow({ ev, nav, right }) {
       {right ?? (
         <div className="when"><b>{ev.day}</b>{ev.mon}</div>
       )}
+    </div>
+  )
+}
+
+/* horizontal poster card for sheets / scan result / chat */
+export function EventBar({ ev, nav, onClick }) {
+  const c = cover(ev)
+  return (
+    <div className="ebar" onClick={onClick || (() => nav?.('detail', { id: ev.id }))}>
+      <div className="ebar-img" style={{ background: c.bg }}><img src={c.src} alt="" /></div>
+      <div className="ebar-body">
+        <CatTag cat={ev.cat} />
+        <h4 className="ebar-title">{ev.title}</h4>
+        <div className="ebar-meta">
+          <span><Pin s={12} /> {ev.venue}</span>
+          <span><Clock s={12} /> {ev.time.split(' – ')[0]}</span>
+        </div>
+        <div className="ebar-price"><b className={ev.priceNum ? '' : 'free'}>{ev.price}</b> · {ev.going} going</div>
+      </div>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { StatusBar, HomeBar } from '../phone/Phone'
-import { EVENTS, byId, img, CATS } from '../data/events'
+import { EVENTS, byId, img, cover, CATS } from '../data/events'
 import { EventRow, SecHead, BackHeader, CatTag, QR } from '../ui'
 import { Image as ImageIc, Cal, Clock, Pin, Flash, Users, Arrow, Check, Plus, Chevron, Star, Verified, Send, Mic, Card, Apple, Wallet as WalletIc, Ticket, Bell } from '../lib/icons'
 import { useState } from 'react'
@@ -161,7 +161,7 @@ export function Chat({ nav }) {
         </div>
         <div style={{ flex: 1, overflowY: 'auto', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 10 }}>
           <div className="erow" onClick={() => nav('detail', { id: ev.id })} style={{ padding: 10, borderRadius: 14, border: '1px solid var(--line)', background: 'var(--card)' }}>
-            <div className="thumb" style={{ width: 46, height: 46 }}><img src={img(ev.img)} alt="" /></div>
+            <div className="thumb" style={{ width: 46, height: 58, background: cover(ev).bg }}><img src={cover(ev).src} alt="" /></div>
             <div style={{ flex: 1, minWidth: 0 }}><h4 style={{ fontSize: 14 }}>{ev.title}</h4><div className="sub">{ev.date} · {ev.price}</div></div>
             <Chevron s={16} />
           </div>
@@ -208,7 +208,7 @@ export function Wallet({ nav }) {
           <div style={{ display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 8, marginBottom: 20 }} className="chiprow">
             {passes.map((ev) => (
               <button key={ev.id} onClick={() => nav('ticketPass', { id: ev.id })} style={{ flex: '0 0 150px', borderRadius: 16, overflow: 'hidden', border: '1px solid var(--line)', background: 'var(--card)', textAlign: 'left' }}>
-                <div style={{ height: 78, position: 'relative' }}><img src={img(ev.img)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" /><div style={{ position: 'absolute', top: 8, left: 8 }}><CatTag cat={ev.cat} /></div></div>
+                <div style={{ height: 92, position: 'relative', background: cover(ev).bg }}><img src={cover(ev).src} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" /><div style={{ position: 'absolute', top: 8, left: 8 }}><CatTag cat={ev.cat} /></div></div>
                 <div style={{ padding: 10 }}><div style={{ fontWeight: 700, fontSize: 13, lineHeight: 1.1 }}>{ev.title}</div><div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4 }}>{ev.date}</div></div>
               </button>
             ))}
@@ -251,7 +251,7 @@ export function Checkout({ nav, params, ctx }) {
         <BackHeader nav={nav} title="Checkout" action={<span style={{ width: 40 }} />} />
         <div className="pad" style={{ paddingBottom: 130 }}>
           <div className="erow" style={{ padding: 12, borderRadius: 16, border: '1px solid var(--line)', background: 'var(--card)', marginBottom: 20 }}>
-            <div className="thumb"><img src={img(ev.img)} alt="" /></div>
+            <div className="thumb" style={{ background: cover(ev).bg }}><img src={cover(ev).src} alt="" /></div>
             <div style={{ flex: 1 }}><h4>{ev.title}</h4><div className="sub">{ev.date} · {ev.time.split(' – ')[0]}</div><div className="sub" style={{ color: 'var(--blue-2)' }}>{ev.venue}</div></div>
           </div>
 

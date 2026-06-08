@@ -13,6 +13,7 @@ export const CATS = {
 export const EVENTS = [
   {
     id: 'soc-heal', title: 'Society Is Healing', cat: 'techno', img: 'techno',
+    poster: 'society', bg: '#0d359b',
     venue: 'Nová Cvernovka', area: 'Nové Mesto', date: 'Fri 12 Jun', day: '12', mon: 'JUN',
     time: '22:00 – 06:00', price: '12€', priceNum: 12, going: 412, friends: 3, dist: '1.4 km',
     about: 'A curiosity-driven night of hypnotic techno in the old chemistry hall. Two rooms, one signal — come find out where the city is healing.',
@@ -20,6 +21,7 @@ export const EVENTS = [
   },
   {
     id: 'fomo', title: 'This Is Not A FOMO Alert', cat: 'party', img: 'rooftop',
+    poster: 'fomo', bg: '#fefefc',
     venue: 'Rooftop Manderlák', area: 'Old Town', date: 'Sat 13 Jun', day: '13', mon: 'JUN',
     time: '18:00 – 02:00', price: '8€', priceNum: 8, going: 268, friends: 5, dist: '0.6 km',
     about: 'Sunset to moonrise on the highest roof in town. But you still might wanna check it.',
@@ -27,6 +29,7 @@ export const EVENTS = [
   },
   {
     id: 'complain', title: 'Complaining Is Bonding', cat: 'talk', img: 'poetry',
+    poster: 'complain', bg: '#0c0c0e',
     venue: 'KC Dunaj', area: 'Centrum', date: 'Wed 10 Jun', day: '10', mon: 'JUN',
     time: '19:00 – 22:00', price: 'Free', priceNum: 0, going: 96, friends: 1, dist: '0.9 km',
     about: 'An open-mic night where the city complains together — and somehow leaves lighter.',
@@ -34,6 +37,7 @@ export const EVENTS = [
   },
   {
     id: 'ufo', title: 'UFO Watching Since 1972', cat: 'film', img: 'cinema',
+    poster: 'ufo', bg: '#0c0c0e',
     venue: 'Magio Pláž', area: 'Petržalka', date: 'Thu 11 Jun', day: '11', mon: 'JUN',
     time: '21:30 – 23:30', price: '6€', priceNum: 6, going: 154, friends: 2, dist: '2.1 km',
     about: 'Open-air screening of cult sci-fi on the riverbank. Bring a blanket, watch the skies.',
@@ -41,6 +45,7 @@ export const EVENTS = [
   },
   {
     id: 'petrzalka', title: 'Petržalka Aesthetic', cat: 'art', img: 'photo',
+    poster: 'petrzalka', bg: '#fcfcfc',
     venue: 'Photoport Gallery', area: 'Petržalka', date: 'Fri 12 Jun', day: '12', mon: 'JUN',
     time: '17:00 – 21:00', price: 'Free', priceNum: 0, going: 73, friends: 0, dist: '3.0 km',
     about: 'A photo exhibition celebrating the concrete poetry of the panelák skyline.',
@@ -48,6 +53,7 @@ export const EVENTS = [
   },
   {
     id: 'mountains', title: 'Small Country, Big Mountains', cat: 'community', img: 'design',
+    poster: 'mountains', bg: '#4bae5f',
     venue: 'Design Factory', area: 'Nivy', date: 'Sun 14 Jun', day: '14', mon: 'JUN',
     time: '11:00 – 16:00', price: 'Free', priceNum: 0, going: 210, friends: 4, dist: '1.8 km',
     about: 'A Sunday meetup for makers, mappers and mountain people. Talks, coffee, good company.',
@@ -55,6 +61,7 @@ export const EVENTS = [
   },
   {
     id: 'vinyl', title: 'Vinyl Flea & Coffee', cat: 'market', img: 'vinyl',
+    poster: 'life', bg: '#0f0f0f',
     venue: 'Stará Tržnica', area: 'Old Town', date: 'Sat 13 Jun', day: '13', mon: 'JUN',
     time: '09:00 – 15:00', price: 'Free', priceNum: 0, going: 340, friends: 2, dist: '0.7 km',
     about: 'Crate-dig through 40 sellers, sip slow coffee, leave with something warm and analog.',
@@ -62,6 +69,7 @@ export const EVENTS = [
   },
   {
     id: 'dnb', title: 'Warehouse: Liquid', cat: 'techno', img: 'dnb',
+    poster: 'afterdark', bg: '#281d1c',
     venue: 'Subclub', area: 'Hrad', date: 'Sat 13 Jun', day: '13', mon: 'JUN',
     time: '23:00 – 07:00', price: '15€', priceNum: 15, going: 520, friends: 6, dist: '1.1 km',
     about: 'Drum & bass under the castle in the city’s oldest bunker club. Bass you feel in your teeth.',
@@ -83,6 +91,7 @@ export const EVENTS = [
   },
   {
     id: 'skate', title: 'Street Jam & BBQ', cat: 'community', img: 'skate',
+    poster: 'roller', bg: '#7d702f',
     venue: 'Sad Janka Kráľa', area: 'Petržalka', date: 'Sun 14 Jun', day: '14', mon: 'JUN',
     time: '14:00 – 20:00', price: 'Free', priceNum: 0, going: 188, friends: 3, dist: '2.4 km',
     about: 'Open skate session, best-trick contest and a grill that never stops.',
@@ -90,6 +99,7 @@ export const EVENTS = [
   },
   {
     id: 'festival', title: 'Riverside Festival', cat: 'live', img: 'festival',
+    poster: 'gonzi', bg: '#5e873b',
     venue: 'Tyršovo nábrežie', area: 'Petržalka', date: 'Sat 20 Jun', day: '20', mon: 'JUN',
     time: '15:00 – 02:00', price: '29€', priceNum: 29, going: 1840, friends: 8, dist: '1.6 km',
     about: 'Three stages on the Danube, twelve hours of music, one very long sunset.',
@@ -113,3 +123,11 @@ export const EVENTS = [
 
 export const byId = (id) => EVENTS.find((e) => e.id === id)
 export const img = (key) => `./events/${key}.jpg`
+export const posterImg = (key) => `./posters/${key}.jpg`
+
+// primary visual for an event: real CITYLIFE poster if it has one, else stock photo.
+// all art is 4:5, so a 4:5 box shows it fully with no crop.
+export const cover = (ev) =>
+  ev.poster
+    ? { src: posterImg(ev.poster), bg: ev.bg || '#0c0c0e', isPoster: true }
+    : { src: img(ev.img), bg: '#0c0c0e', isPoster: false }

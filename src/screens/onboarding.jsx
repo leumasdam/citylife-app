@@ -1,21 +1,46 @@
 import { StatusBar, HomeBar } from '../phone/Phone'
-import { img, CATS } from '../data/events'
+import { img, posterImg, CATS } from '../data/events'
 import { Arrow, Pin, Scan, Check, Flash } from '../lib/icons'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
+
+const fadeUp = { h: { opacity: 0, y: 18 }, s: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }
 
 export function Splash() {
   return (
     <>
       <StatusBar />
-      <div className="body center" style={{ background: 'var(--blue)' }}>
-        <div className="stack" style={{ alignItems: 'center', gap: 18 }}>
-          <img src="./brand/logo-white.png" alt="CITYLIFE" style={{ width: 190 }} />
-          <div className="mono upper" style={{ fontSize: 12, color: 'rgba(255,255,255,.8)' }}>the city, scannable</div>
+      <div className="body center" style={{ background: 'var(--blue)', overflow: 'hidden' }}>
+        {/* faint rotating sticker halo behind the logo */}
+        <motion.div
+          style={{ position: 'absolute', width: 460, height: 460, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.22)' }}
+          animate={{ rotate: 360 }} transition={{ duration: 38, repeat: Infinity, ease: 'linear' }}
+        />
+        <motion.div
+          style={{ position: 'absolute', width: 320, height: 320, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.16)' }}
+          animate={{ rotate: -360 }} transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
+        />
+        <div className="stack" style={{ alignItems: 'center', gap: 20, position: 'relative' }}>
+          <motion.img
+            src="./brand/logo-white.png" alt="CITYLIFE" style={{ width: 232 }}
+            initial={{ scale: 0.6, opacity: 0, y: 8 }}
+            animate={{ scale: [0.6, 1.06, 1], opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], times: [0, 0.7, 1] }}
+          />
+          <motion.div className="mono upper" style={{ fontSize: 12, color: 'rgba(255,255,255,.85)', letterSpacing: '0.3em' }}
+            initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }}>
+            the city, scannable
+          </motion.div>
         </div>
-        <div style={{ position: 'absolute', bottom: 70, left: 0, right: 0, display: 'grid', placeItems: 'center' }}>
-          <div style={{ width: 130, height: 4, borderRadius: 3, background: 'rgba(255,255,255,.25)', overflow: 'hidden' }}>
-            <div style={{ width: '62%', height: '100%', background: '#fff' }} />
+        <div style={{ position: 'absolute', bottom: 64, left: 0, right: 0, display: 'grid', placeItems: 'center', gap: 12 }}>
+          <div style={{ width: 150, height: 4, borderRadius: 3, background: 'rgba(255,255,255,.22)', overflow: 'hidden' }}>
+            <motion.div style={{ height: '100%', background: '#fff', borderRadius: 3 }}
+              initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ delay: 0.4, duration: 1.6, ease: 'easeInOut' }} />
           </div>
+          <motion.div className="mono" style={{ fontSize: 10.5, color: 'rgba(255,255,255,.6)', letterSpacing: '0.2em' }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}>
+            LOADING TONIGHT…
+          </motion.div>
         </div>
       </div>
       <HomeBar />
@@ -35,11 +60,12 @@ function OnbShell({ photo, eyebrow, title, text, idx, nav, accent }) {
             <div className="t">{Array(6).fill('CITYLIFE ✦ ').join('')}</div>
           </div>
         </div>
-        <div className="pad" style={{ marginTop: -30, position: 'relative' }}>
-          <div className={`eyebrow ${accent}`} style={{ marginBottom: 12 }}>{eyebrow}</div>
-          <h1 className="display" style={{ fontSize: 40 }}>{title}</h1>
-          <p style={{ color: 'var(--dim)', marginTop: 16, fontSize: 15.5, lineHeight: 1.5, maxWidth: 300 }}>{text}</p>
-        </div>
+        <motion.div className="pad" style={{ marginTop: -30, position: 'relative' }}
+          initial="h" animate="s" variants={{ s: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } } }}>
+          <motion.div className={`eyebrow ${accent}`} style={{ marginBottom: 12 }} variants={fadeUp}>{eyebrow}</motion.div>
+          <motion.h1 className="display" style={{ fontSize: 40 }} variants={fadeUp}>{title}</motion.h1>
+          <motion.p style={{ color: 'var(--dim)', marginTop: 16, fontSize: 15.5, lineHeight: 1.5, maxWidth: 300 }} variants={fadeUp}>{text}</motion.p>
+        </motion.div>
       </div>
       <div className="dock row">
         <div className="dots">{[0, 1, 2].map((i) => <i key={i} className={i === idx ? 'on' : ''} />)}</div>
@@ -59,7 +85,7 @@ export const Onb1 = ({ nav }) => (
     text="A living map of everything happening in your city tonight — gigs, raves, markets, openings. Curated, not cluttered." />
 )
 export const Onb2 = ({ nav }) => (
-  <OnbShell idx={1} nav={nav} accent="blue" photo={img('techno')}
+  <OnbShell idx={1} nav={nav} accent="blue" photo={posterImg('wall')}
     eyebrow="02 — Scan"
     title={<>SCAN ANY<br /><span style={{ color: 'var(--blue-2)' }}>POSTER.</span></>}
     text="See a poster on the street? Point your camera at the QR and the full event opens instantly — time, place, price, the vibe." />
@@ -135,15 +161,17 @@ export function Auth({ nav }) {
     <>
       <StatusBar />
       <div className="body pad center" style={{ textAlign: 'center' }}>
-        <div style={{ position: 'absolute', top: 30, left: 0, right: 0, display: 'grid', placeItems: 'center' }}>
-          <img src="./brand/logo-white.png" style={{ width: 120 }} alt="" />
-        </div>
-        <div className="stack" style={{ gap: 18, width: '100%' }}>
-          <div>
+        <motion.div className="stack" style={{ gap: 22, width: '100%', alignItems: 'center' }}
+          initial="h" animate="s" variants={{ s: { transition: { staggerChildren: 0.1 } } }}>
+          <motion.div variants={fadeUp} style={{ width: 150, height: 150, borderRadius: 34, background: 'var(--blue)', display: 'grid', placeItems: 'center', boxShadow: '0 24px 60px -20px rgba(31,68,255,.6)' }}>
+            <img src="./brand/logo-white.png" style={{ width: 108 }} alt="CITYLIFE" />
+          </motion.div>
+          <motion.div variants={fadeUp}>
             <div className="eyebrow yellow" style={{ marginBottom: 10 }}>Almost there</div>
-            <h1 className="display" style={{ fontSize: 40 }}>JOIN THE<br />CITY</h1>
-          </div>
-        </div>
+            <h1 className="display" style={{ fontSize: 44 }}>JOIN THE<br />CITY</h1>
+            <p style={{ color: 'var(--muted)', marginTop: 12, fontSize: 14.5, maxWidth: 260 }}>One tap and the whole city opens up. No spam, just signal.</p>
+          </motion.div>
+        </motion.div>
       </div>
       <div className="dock stack" style={{ gap: 10 }}>
         <button className="btn btn-white" onClick={() => nav('done')}> Continue with Apple</button>

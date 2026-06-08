@@ -1,5 +1,5 @@
 import { StatusBar, TabBar, HomeBar } from '../phone/Phone'
-import { EVENTS, byId, img } from '../data/events'
+import { EVENTS, byId, img, cover } from '../data/events'
 import { EventCard, EventRow, SecHead, BackHeader, CatTag, QR } from '../ui'
 import { Ticket, Pin, Clock, Flash, Bell, Heart, Check, Arrow, Star, Cal } from '../lib/icons'
 import { useState } from 'react'
@@ -50,8 +50,8 @@ export function Tickets({ nav, ctx }) {
           <div className="stack" style={{ gap: 16 }}>
             {list.map((ev) => (
               <button key={ev.id} className="ecard" style={{ display: 'flex', textAlign: 'left', padding: 0 }} onClick={() => nav('ticketPass', { id: ev.id })}>
-                <div style={{ width: 110, flex: '0 0 110px', position: 'relative' }}>
-                  <img src={img(ev.img)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{ width: 104, flex: '0 0 104px', position: 'relative', background: cover(ev).bg }}>
+                  <img src={cover(ev).src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
                 <div style={{ padding: 14, flex: 1, minWidth: 0 }}>
                   <CatTag cat={ev.cat} />

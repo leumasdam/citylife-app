@@ -1,6 +1,6 @@
 import { StatusBar, TabBar, HomeBar } from '../phone/Phone'
-import { EVENTS, CATS, byId, img } from '../data/events'
-import { EventCard, EventRow, SecHead, CatTag, BackHeader } from '../ui'
+import { EVENTS, CATS, byId, img, cover } from '../data/events'
+import { EventCard, EventRow, EventBar, SecHead, CatTag, BackHeader } from '../ui'
 import { MapBg } from './onboarding'
 import { Bell, Pin, Search as SearchIc, Filter, Clock, Heart, Users, Star, Flash, Arrow, Check, Message } from '../lib/icons'
 import { useState } from 'react'
@@ -103,7 +103,7 @@ export function Explore({ nav, ctx }) {
             {EVENTS.filter((e) => e.hot || e.rating >= 4.7).slice(0, 4).map((e, i) => (
               <div key={e.id} className="erow" onClick={() => nav('detail', { id: e.id })}>
                 <div className="display" style={{ fontSize: 26, width: 26, color: 'var(--blue-2)' }}>{i + 1}</div>
-                <div className="thumb"><img src={img(e.img)} alt="" /></div>
+                <div className="thumb" style={{ background: cover(e).bg }}><img src={cover(e).src} alt="" /></div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <h4>{e.title}</h4>
                   <div className="sub"><Star s={12} fill="var(--yellow)" style={{ display: 'inline' }} /> {e.rating} · {e.going} going</div>
@@ -145,15 +145,7 @@ export function MapView({ nav, ctx }) {
             <div className="eyebrow blue">8 events near you</div>
             <button className="more" style={{ fontSize: 13, color: 'var(--blue-2)' }} onClick={() => nav('explore')}>List view</button>
           </div>
-          <div className="ecard" onClick={() => nav('detail', { id: ev.id })} style={{ marginBottom: 12 }}>
-            <div className="img" style={{ aspectRatio: '16/8' }}>
-              <img src={img(ev.img)} alt="" />
-              <div className="cat"><CatTag cat={ev.cat} /></div>
-              <div className="meta"><h3>{ev.title}</h3>
-                <div className="row"><span><Pin s={13} /> {ev.dist}</span><span><Clock s={13} /> {ev.time.split(' – ')[0]}</span><b>{ev.price}</b></div>
-              </div>
-            </div>
-          </div>
+          <div style={{ marginBottom: 12 }}><EventBar ev={ev} nav={nav} /></div>
           <div className="stack" style={{ gap: 2 }}>
             {EVENTS.slice(6, 8).map((e) => <EventRow key={e.id} ev={e} nav={nav} right={<div className="when" style={{ color: 'var(--blue-2)' }}><b style={{ color: '#fff' }}>{e.dist}</b></div>} />)}
           </div>
@@ -203,26 +195,40 @@ export function Search({ nav, params, ctx }) {
 
 export function Detail({ nav, params, ctx }) {
   const ev = byId(params?.id) || EVENTS[0]
+  const c = cover(ev)
   const saved = ctx.saved.has(ev.id)
   const going = ctx.going.has(ev.id)
   return (
     <>
       <div className="body" style={{ position: 'relative' }}>
-        {/* hero */}
-        <div style={{ position: 'relative', height: 360 }}>
-          <img src={img(ev.img)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(12,12,15,.5) 0%, transparent 30%, var(--ink) 99%)' }} />
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}><StatusBar /></div>
-          <div style={{ position: 'absolute', top: 44, left: 0, right: 0 }}>
-            <BackHeader nav={nav} />
+        {/* hero — real poster (full, no crop) for poster events, else photo with overlaid title */}
+        {c.isPoster ? (
+          <div style={{ position: 'relative', aspectRatio: '4/5', background: c.bg }}>
+            <img src={c.src} alt={ev.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,.28) 0%, transparent 16%, transparent 86%, var(--ink) 100%)' }} />
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}><StatusBar /></div>
+            <div style={{ position: 'absolute', top: 44, left: 0, right: 0 }}><BackHeader nav={nav} /></div>
           </div>
-          <div style={{ position: 'absolute', left: 20, bottom: 18, right: 20, color: '#fff' }}>
-            <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}><CatTag cat={ev.cat} />{ev.hot && <span className="tag yellow"><Flash s={12} /> Selling fast</span>}</div>
-            <h1 className="heavy" style={{ fontSize: 32, textTransform: 'uppercase', lineHeight: .96, letterSpacing: '-.01em' }}>{ev.title}</h1>
+        ) : (
+          <div style={{ position: 'relative', height: 360 }}>
+            <img src={c.src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(12,12,15,.5) 0%, transparent 30%, var(--ink) 99%)' }} />
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}><StatusBar /></div>
+            <div style={{ position: 'absolute', top: 44, left: 0, right: 0 }}><BackHeader nav={nav} /></div>
+            <div style={{ position: 'absolute', left: 20, bottom: 18, right: 20, color: '#fff' }}>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}><CatTag cat={ev.cat} />{ev.hot && <span className="tag yellow"><Flash s={12} /> Selling fast</span>}</div>
+              <h1 className="heavy" style={{ fontSize: 32, textTransform: 'uppercase', lineHeight: .96, letterSpacing: '-.01em' }}>{ev.title}</h1>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="pad" style={{ paddingBottom: 120 }}>
+          {c.isPoster && (
+            <div style={{ marginTop: 14 }}>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}><CatTag cat={ev.cat} />{ev.hot && <span className="tag yellow"><Flash s={12} /> Selling fast</span>}</div>
+              <h1 className="heavy" style={{ fontSize: 30, textTransform: 'uppercase', lineHeight: .96, letterSpacing: '-.01em' }}>{ev.title}</h1>
+            </div>
+          )}
           {/* going row */}
           <div className="row-between" style={{ marginTop: 14, marginBottom: 18 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
