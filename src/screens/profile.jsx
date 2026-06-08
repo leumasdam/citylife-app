@@ -1,5 +1,5 @@
 import { StatusBar, TabBar, HomeBar } from '../phone/Phone'
-import { EVENTS, byId, img } from '../data/events'
+import { EVENTS, byId, img, posterImg } from '../data/events'
 import { EventRow, SecHead, BackHeader, CatTag, PosterMini, CountUp } from '../ui'
 import { Cog, Users, Star, Ticket, Heart, Arrow, Chevron, Bell, Pin, Check, Flash, Wallet, Message, Plus } from '../lib/icons'
 
@@ -8,13 +8,15 @@ export function Curated({ nav }) {
   return (
     <>
       <div className="body" style={{ position: 'relative' }}>
-        <div style={{ position: 'relative', height: 300, background: '#b9b6e6' }}>
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}><StatusBar light /></div>
-          <div style={{ position: 'absolute', top: 44, left: 0, right: 0 }}><BackHeader nav={nav} light action={<span style={{ width: 40 }} />} /></div>
-          <div className="center" style={{ position: 'absolute', inset: 0, flexDirection: 'column', color: '#232049', textAlign: 'center', padding: 20 }}>
-            <div className="mono upper" style={{ fontSize: 11, marginBottom: 12 }}>Editor’s collection</div>
-            <h1 className="heavy" style={{ fontSize: 42, textTransform: 'uppercase', lineHeight: .9 }}>Society<br />Is Healing</h1>
-            <p style={{ fontSize: 13, marginTop: 12, maxWidth: 260, fontWeight: 600 }}>The nights putting the city back together. We know where.</p>
+        <div style={{ position: 'relative', height: 320, background: '#0d359b', overflow: 'hidden', color: '#fff' }}>
+          <img src={posterImg('society')} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.35, filter: 'blur(1px)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(13,53,155,.5), rgba(13,53,155,.4) 50%, var(--ink))' }} />
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}><StatusBar /></div>
+          <div style={{ position: 'absolute', top: 44, left: 0, right: 0 }}><BackHeader nav={nav} action={<span style={{ width: 40 }} />} /></div>
+          <div className="center" style={{ position: 'absolute', inset: 0, flexDirection: 'column', textAlign: 'center', padding: 20 }}>
+            <div className="mono upper" style={{ fontSize: 11, marginBottom: 12, color: 'var(--yellow)' }}>Editor’s collection</div>
+            <h1 className="display" style={{ fontSize: 50 }}>Society<br />Is Healing</h1>
+            <p style={{ fontSize: 13.5, marginTop: 14, maxWidth: 280, color: 'rgba(255,255,255,.85)' }}>The nights putting the city back together. <i style={{ color: 'var(--yellow)' }}>We know where.</i></p>
           </div>
         </div>
         <div className="pad" style={{ marginTop: 18, paddingBottom: 100 }}>
