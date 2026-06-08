@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { StatusBar, HomeBar } from '../phone/Phone'
 import { byId, img, posterImg } from '../data/events'
 import { CatTag, EventBar } from '../ui'
@@ -58,12 +59,16 @@ export function ScanResult({ nav, ctx }) {
       <StatusBar />
       <div className="body scanview">
         <ScannerChrome nav={nav} scanning={false} />
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(6,6,9,.5)' }} />
+        <motion.div style={{ position: 'absolute', inset: 0, background: 'rgba(6,6,9,.5)' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
         {/* success sheet */}
-        <div className="sheet" style={{ paddingBottom: 22 }}>
+        <motion.div className="sheet" style={{ paddingBottom: 22 }}
+          initial={{ y: 320 }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 280, damping: 30 }}>
           <div className="grab" />
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-            <div className="center" style={{ width: 30, height: 30, borderRadius: '50%', background: 'var(--green)' }}><Check s={18} w={3} /></div>
+            <motion.div className="center" style={{ width: 30, height: 30, borderRadius: '50%', background: 'var(--green)' }}
+              initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.25, type: 'spring', stiffness: 500, damping: 18 }}>
+              <Check s={18} w={3} />
+            </motion.div>
             <div className="eyebrow" style={{ color: 'var(--green)' }}>Poster recognised · event unlocked</div>
           </div>
           <div style={{ marginBottom: 16 }}><EventBar ev={ev} nav={nav} /></div>
@@ -71,7 +76,7 @@ export function ScanResult({ nav, ctx }) {
             <button className="btn btn-dark" style={{ flex: '0 0 56px', padding: 0, height: 54 }} onClick={() => ctx.toggle(ev.id)}>♡</button>
             <button className="btn btn-blue" onClick={() => nav('detail', { id: ev.id })}>Open event <Arrow s={18} /></button>
           </div>
-        </div>
+        </motion.div>
       </div>
       <HomeBar />
     </>

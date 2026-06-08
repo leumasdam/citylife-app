@@ -1,6 +1,22 @@
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import { CATS, img, cover } from './data/events'
 import { Pin, Clock, Heart, ArrowL, Share, Star, Flash } from './lib/icons'
+
+/* count-up number, animates when scrolled into view */
+export function CountUp({ to, suffix = '', dur = 1100, decimals = 0 }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true })
+  const [n, setN] = useState(0)
+  useEffect(() => {
+    if (!inView) return
+    let raf, start
+    const tick = (t) => { if (!start) start = t; const p = Math.min(1, (t - start) / dur); setN(to * (1 - Math.pow(1 - p, 3))); if (p < 1) raf = requestAnimationFrame(tick) }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [inView, to, dur])
+  return <span ref={ref}>{n.toFixed(decimals)}{suffix}</span>
+}
 
 export function CatTag({ cat }) {
   const c = CATS[cat]

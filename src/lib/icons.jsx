@@ -1,5 +1,5 @@
 /* Minimal stroke icon set. size via props, currentColor. */
-const I = (p) => ({ width: p.s || 22, height: p.s || 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: p.w || 2, strokeLinecap: 'round', strokeLinejoin: 'round' })
+const I = (p) => ({ width: p.s || 22, height: p.s || 22, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: p.w || 2, strokeLinecap: 'round', strokeLinejoin: 'round', style: p.style, className: p.className })
 
 export const Home = (p) => <svg {...I(p)}><path d="M3 10.5 12 3l9 7.5" /><path d="M5 9.5V21h14V9.5" /></svg>
 export const Compass = (p) => <svg {...I(p)}><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5z" /></svg>

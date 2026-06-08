@@ -1,6 +1,6 @@
 import { StatusBar, TabBar, HomeBar } from '../phone/Phone'
 import { EVENTS, byId, img } from '../data/events'
-import { EventRow, SecHead, BackHeader, CatTag, PosterMini } from '../ui'
+import { EventRow, SecHead, BackHeader, CatTag, PosterMini, CountUp } from '../ui'
 import { Cog, Users, Star, Ticket, Heart, Arrow, Chevron, Bell, Pin, Check, Flash, Wallet, Message, Plus } from '../lib/icons'
 
 export function Curated({ nav }) {
@@ -53,9 +53,9 @@ export function Profile({ nav, ctx }) {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 14 }}>
-            {[['24', 'Been', 'var(--blue-2)'], ['6', 'Upcoming', 'var(--yellow)'], ['38', 'Saved', 'var(--pink)']].map(([n, l, c]) => (
+            {[[24, 'Been', 'var(--blue-2)'], [6, 'Upcoming', 'var(--yellow)'], [38, 'Saved', 'var(--pink)']].map(([n, l, c]) => (
               <div key={l} className="pill center" style={{ flexDirection: 'column', gap: 2 }}>
-                <div className="display" style={{ fontSize: 30, color: c }}>{n}</div>
+                <div className="display" style={{ fontSize: 30, color: c }}><CountUp to={n} /></div>
                 <div style={{ fontSize: 11.5, color: 'var(--muted)' }}>{l}</div>
               </div>
             ))}
