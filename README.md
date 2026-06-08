@@ -1,5 +1,7 @@
 # CITYLIFE — the city, scannable
 
+**Live:** https://leumasdam.github.io/citylife-app/
+
 Mobile app concept for **CITYLIFE**: a living database of city events you discover, scan and attend.
 See a poster on the street → scan its QR → the full event opens (time, place, price, lineup) → grab your pass.
 
@@ -20,7 +22,8 @@ typography, the bubbly sticker logo). React + Vite + Framer Motion.
 ```bash
 npm install
 npm run dev      # http://localhost:5173
-npm run build    # → dist/  (static, base './', deploys to GitHub Pages)
+npm run build    # → dist/  (static, base './')
+npm run deploy   # build + publish dist to the gh-pages branch
 ```
 
 ## Structure
