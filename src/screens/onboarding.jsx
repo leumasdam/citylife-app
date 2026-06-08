@@ -131,18 +131,18 @@ export function Location({ nav }) {
     <>
       <StatusBar />
       <div className="body" style={{ position: 'relative' }}>
-        <div style={{ position: 'relative', height: 440, overflow: 'hidden' }}>
+        <div style={{ position: 'relative', height: 380, overflow: 'hidden' }}>
           <MapBg />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, var(--ink))' }} />
-          <div className="center" style={{ position: 'absolute', top: 150, left: 0, right: 0 }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, var(--ink) 92%)' }} />
+          <div className="center" style={{ position: 'absolute', top: 130, left: 0, right: 0 }}>
             <div style={{ position: 'relative' }}>
-              <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'var(--blue)', display: 'grid', placeItems: 'center', boxShadow: '0 0 0 12px rgba(31,68,255,.18), 0 0 0 28px rgba(31,68,255,.08)' }}>
+              <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'var(--blue)', display: 'grid', placeItems: 'center', boxShadow: '0 0 0 12px rgba(31,68,255,.18), 0 0 0 28px rgba(31,68,255,.08)', color: '#fff' }}>
                 <Pin s={30} />
               </div>
             </div>
           </div>
         </div>
-        <div className="pad" style={{ marginTop: -20 }}>
+        <div className="pad" style={{ marginTop: 14 }}>
           <h1 className="display" style={{ fontSize: 34 }}>FIND EVENTS<br />AROUND YOU</h1>
           <p style={{ color: 'var(--dim)', marginTop: 14, fontSize: 15, maxWidth: 290 }}>Turn on location to surface what’s happening within walking distance — sorted by what’s closest and starting soon.</p>
         </div>

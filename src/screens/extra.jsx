@@ -208,7 +208,7 @@ export function Wallet({ nav }) {
           <div style={{ display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 8, marginBottom: 20 }} className="chiprow">
             {passes.map((ev) => (
               <button key={ev.id} onClick={() => nav('ticketPass', { id: ev.id })} style={{ flex: '0 0 150px', borderRadius: 16, overflow: 'hidden', border: '1px solid var(--line)', background: 'var(--card)', textAlign: 'left' }}>
-                <div style={{ height: 92, position: 'relative', background: cover(ev).bg }}><img src={cover(ev).src} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" /><div style={{ position: 'absolute', top: 8, left: 8 }}><CatTag cat={ev.cat} /></div></div>
+                <div style={{ aspectRatio: '4/5', position: 'relative', background: cover(ev).bg }}><img src={cover(ev).src} style={{ width: '100%', height: '100%', objectFit: 'contain' }} alt="" /><div style={{ position: 'absolute', top: 8, left: 8 }}><CatTag cat={ev.cat} /></div></div>
                 <div style={{ padding: 10 }}><div style={{ fontWeight: 700, fontSize: 13, lineHeight: 1.1 }}>{ev.title}</div><div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4 }}>{ev.date}</div></div>
               </button>
             ))}
