@@ -4,3 +4,5 @@ dev.log
 preview.log
 .DS_Store
 *.local
+*.cjs
+_*
