@@ -6,32 +6,45 @@ import { motion } from 'framer-motion'
 
 const fadeUp = { h: { opacity: 0, y: 18 }, s: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }
 
-/* grid of "city windows" lit in a diagonal wave, masked to the logo shape */
-const WIN_COLS = 11, WIN_ROWS = 14
+/* SVG city skyline — real windows that light up in a left→right wave (the loader) */
+const SKYLINE = [
+  { x: 12, w: 38, h: 66, cols: 3, rows: 6 },
+  { x: 56, w: 30, h: 96, cols: 2, rows: 9 },
+  { x: 92, w: 46, h: 54, cols: 4, rows: 5 },
+  { x: 144, w: 26, h: 112, cols: 2, rows: 10 },
+  { x: 176, w: 42, h: 76, cols: 3, rows: 7 },
+  { x: 224, w: 26, h: 60, cols: 2, rows: 5 },
+]
+const BASE = 120
 const WINDOWS = (() => {
-  const cols = ['#f3ff36', '#ffffff', '#f3ff36', '#9fe8ff', '#ff5ec7', '#ffffff', '#f3ff36']
   const a = []
-  for (let r = 0; r < WIN_ROWS; r++) for (let c = 0; c < WIN_COLS; c++) {
-    const delay = ((c + r) % 9) * 0.16 + ((c * 7 + r * 3) % 5) * 0.06
-    a.push({ l: ((c + 0.5) / WIN_COLS) * 100, t: ((r + 0.5) / WIN_ROWS) * 100, delay, col: cols[(c * 3 + r * 5) % cols.length] })
-  }
+  SKYLINE.forEach((b, bi) => {
+    const pad = 5, gx = (b.w - pad * 2) / b.cols, gy = (b.h - pad * 2) / b.rows
+    const ww = Math.min(gx * 0.62, 5), wh = Math.min(gy * 0.55, 5)
+    for (let r = 0; r < b.rows; r++) for (let c = 0; c < b.cols; c++) {
+      const x = b.x + pad + c * gx + (gx - ww) / 2
+      const y = (BASE - b.h) + pad + r * gy + (gy - wh) / 2
+      const delay = (x / 250) * 1.5 + (r % 3) * 0.1 + bi * 0.04
+      const warm = (c * 3 + r) % 4 === 0 ? '#ffffff' : '#ffd23f'
+      a.push({ x, y, ww, wh, delay, warm })
+    }
+  })
   return a
 })()
 
-const LOGO_MASK = './brand/logo-white.png'
-const maskStyle = { WebkitMaskImage: `url(${LOGO_MASK})`, maskImage: `url(${LOGO_MASK})`, WebkitMaskSize: '100% 100%', maskSize: '100% 100%', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat' }
-
-export function SplashLogo({ width = 234 }) {
+function CityLoader({ width = 210 }) {
   return (
-    <div className="splash-logo" style={{ width }}>
-      <img src="./brand/logo-white.png" alt="CITYLIFE" style={{ width: '100%', display: 'block' }} />
-      <div className="win-layer" style={maskStyle}>
-        {WINDOWS.map((w, i) => (
-          <i key={i} className="win" style={{ left: `${w.l}%`, top: `${w.t}%`, background: w.col, animationDelay: `${w.delay}s` }} />
-        ))}
-      </div>
-      <div className="shine-layer" style={maskStyle} />
-    </div>
+    <svg className="city-loader" viewBox="0 0 262 124" style={{ width, display: 'block' }} fill="none">
+      {SKYLINE.map((b, i) => (
+        <rect key={i} x={b.x} y={BASE - b.h} width={b.w} height={b.h} rx="2.5"
+          fill="rgba(7,15,70,0.55)" stroke="rgba(255,255,255,0.28)" strokeWidth="1" />
+      ))}
+      {WINDOWS.map((w, i) => (
+        <rect key={'w' + i} className="win" x={w.x} y={w.y} width={w.ww} height={w.wh} rx="0.6"
+          fill={w.warm} style={{ opacity: 0.12, animationDelay: `${w.delay}s` }} />
+      ))}
+      <line x1="2" y1={BASE + 1.5} x2="260" y2={BASE + 1.5} stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
   )
 }
 
@@ -40,7 +53,6 @@ export function Splash() {
     <>
       <StatusBar />
       <div className="body center" style={{ background: 'var(--blue)', overflow: 'hidden' }}>
-        {/* faint rotating sticker halo behind the logo */}
         <motion.div
           style={{ position: 'absolute', width: 460, height: 460, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.22)' }}
           animate={{ rotate: 360 }} transition={{ duration: 38, repeat: Infinity, ease: 'linear' }}
@@ -49,29 +61,25 @@ export function Splash() {
           style={{ position: 'absolute', width: 320, height: 320, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.16)' }}
           animate={{ rotate: -360 }} transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
         />
-        <div className="stack" style={{ alignItems: 'center', gap: 20, position: 'relative' }}>
-          <motion.div
+        <div className="stack" style={{ alignItems: 'center', gap: 18, position: 'relative' }}>
+          <motion.img
+            className="splash-float" src="./brand/logo-white.png" alt="CITYLIFE" style={{ width: 230 }}
             initial={{ scale: 0.6, opacity: 0, y: 8 }}
             animate={{ scale: [0.6, 1.06, 1], opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], times: [0, 0.7, 1] }}
-          >
-            <SplashLogo width={236} />
-          </motion.div>
+          />
           <motion.div className="mono upper" style={{ fontSize: 12, color: 'rgba(255,255,255,.85)', letterSpacing: '0.3em' }}
             initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }}>
             the city, scannable
           </motion.div>
         </div>
-        <div style={{ position: 'absolute', bottom: 64, left: 0, right: 0, display: 'grid', placeItems: 'center', gap: 12 }}>
-          <div style={{ width: 150, height: 4, borderRadius: 3, background: 'rgba(255,255,255,.22)', overflow: 'hidden' }}>
-            <motion.div style={{ height: '100%', background: '#fff', borderRadius: 3 }}
-              initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ delay: 0.4, duration: 1.6, ease: 'easeInOut' }} />
-          </div>
-          <motion.div className="mono" style={{ fontSize: 10.5, color: 'rgba(255,255,255,.6)', letterSpacing: '0.2em' }}
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}>
+        <motion.div style={{ position: 'absolute', bottom: 54, left: 0, right: 0, display: 'grid', placeItems: 'center', gap: 14 }}
+          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.6 }}>
+          <CityLoader />
+          <div className="mono" style={{ fontSize: 10.5, color: 'rgba(255,255,255,.7)', letterSpacing: '0.22em' }}>
             LOADING TONIGHT…
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
       <HomeBar />
     </>
