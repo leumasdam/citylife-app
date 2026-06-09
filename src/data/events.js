@@ -14,11 +14,11 @@ export const CATS = {
 // campaign — NOT events. Events have their own names, art and event posters.
 export const EVENTS = [
   {
-    id: 'soc-heal', title: 'Existential Crisis', cat: 'techno', img: 'techno',
+    id: 'soc-heal', title: 'Distorted', cat: 'techno', img: 'techno',
     poster: 'crisist', bg: '#44321a',
     venue: 'Nová Cvernovka', area: 'Nové Mesto', date: 'Fri 12 Jun', day: '12', mon: 'JUN',
     time: '22:00 – 06:00', price: '12€', priceNum: 12, going: 412, friends: 3, dist: '1.4 km',
-    about: 'A pitch-black room, a glitching strobe and four hours of mind-bending techno in the old chemistry hall. Stare into the void — it stares back in 4/4.',
+    about: 'Glitching strobes, warped low-end and four hours of relentless techno in the old chemistry hall. Lose the plot, find the bassline.',
     lineup: ['I Hate Models', 'b2b residents'], rating: 4.8, hot: true,
   },
   {

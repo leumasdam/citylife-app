@@ -1,52 +1,11 @@
 import { StatusBar, HomeBar } from '../phone/Phone'
 import { img, posterImg, CATS } from '../data/events'
 import { Arrow, Pin, Scan, Check, Flash } from '../lib/icons'
+import { Marquee } from '../ui'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 
 const fadeUp = { h: { opacity: 0, y: 18 }, s: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }
-
-/* SVG city skyline — real windows that light up in a left→right wave (the loader) */
-const SKYLINE = [
-  { x: 12, w: 38, h: 66, cols: 3, rows: 6 },
-  { x: 56, w: 30, h: 96, cols: 2, rows: 9 },
-  { x: 92, w: 46, h: 54, cols: 4, rows: 5 },
-  { x: 144, w: 26, h: 112, cols: 2, rows: 10 },
-  { x: 176, w: 42, h: 76, cols: 3, rows: 7 },
-  { x: 224, w: 26, h: 60, cols: 2, rows: 5 },
-]
-const BASE = 120
-const WINDOWS = (() => {
-  const a = []
-  SKYLINE.forEach((b, bi) => {
-    const pad = 5, gx = (b.w - pad * 2) / b.cols, gy = (b.h - pad * 2) / b.rows
-    const ww = Math.min(gx * 0.62, 5), wh = Math.min(gy * 0.55, 5)
-    for (let r = 0; r < b.rows; r++) for (let c = 0; c < b.cols; c++) {
-      const x = b.x + pad + c * gx + (gx - ww) / 2
-      const y = (BASE - b.h) + pad + r * gy + (gy - wh) / 2
-      const delay = (x / 250) * 1.5 + (r % 3) * 0.1 + bi * 0.04
-      const warm = (c * 3 + r) % 4 === 0 ? '#ffffff' : '#ffd23f'
-      a.push({ x, y, ww, wh, delay, warm })
-    }
-  })
-  return a
-})()
-
-function CityLoader({ width = 210 }) {
-  return (
-    <svg className="city-loader" viewBox="0 0 262 124" style={{ width, display: 'block' }} fill="none">
-      {SKYLINE.map((b, i) => (
-        <rect key={i} x={b.x} y={BASE - b.h} width={b.w} height={b.h} rx="2.5"
-          fill="rgba(7,15,70,0.55)" stroke="rgba(255,255,255,0.28)" strokeWidth="1" />
-      ))}
-      {WINDOWS.map((w, i) => (
-        <rect key={'w' + i} className="win" x={w.x} y={w.y} width={w.ww} height={w.wh} rx="0.6"
-          fill={w.warm} style={{ opacity: 0.12, animationDelay: `${w.delay}s` }} />
-      ))}
-      <line x1="2" y1={BASE + 1.5} x2="260" y2={BASE + 1.5} stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  )
-}
 
 export function Splash() {
   return (
@@ -54,16 +13,22 @@ export function Splash() {
       <StatusBar />
       <div className="body center" style={{ background: 'var(--blue)', overflow: 'hidden' }}>
         <motion.div
-          style={{ position: 'absolute', width: 460, height: 460, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.22)' }}
-          animate={{ rotate: 360 }} transition={{ duration: 38, repeat: Infinity, ease: 'linear' }}
+          style={{ position: 'absolute', width: 460, height: 460, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.2)' }}
+          animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
         />
         <motion.div
-          style={{ position: 'absolute', width: 320, height: 320, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.16)' }}
-          animate={{ rotate: -360 }} transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
+          style={{ position: 'absolute', width: 320, height: 320, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.14)' }}
+          animate={{ rotate: -360 }} transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+        />
+        {/* soft glow that breathes behind the logo */}
+        <motion.div
+          style={{ position: 'absolute', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(255,255,255,.5), transparent 70%)', filter: 'blur(26px)' }}
+          animate={{ opacity: [0.25, 0.6, 0.25], scale: [0.9, 1.08, 0.9] }}
+          transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
         />
         <div className="stack" style={{ alignItems: 'center', gap: 18, position: 'relative' }}>
           <motion.img
-            className="splash-float" src="./brand/logo-white.png" alt="CITYLIFE" style={{ width: 230 }}
+            className="splash-float" src="./brand/logo-white.png" alt="CITYLIFE" style={{ width: 232 }}
             initial={{ scale: 0.6, opacity: 0, y: 8 }}
             animate={{ scale: [0.6, 1.06, 1], opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], times: [0, 0.7, 1] }}
@@ -73,9 +38,13 @@ export function Splash() {
             the city, scannable
           </motion.div>
         </div>
-        <motion.div style={{ position: 'absolute', bottom: 54, left: 0, right: 0, display: 'grid', placeItems: 'center', gap: 14 }}
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.6 }}>
-          <CityLoader />
+        <motion.div style={{ position: 'absolute', bottom: 66, left: 0, right: 0, display: 'grid', placeItems: 'center', gap: 14 }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.6 }}>
+          <div style={{ width: 150, height: 4, borderRadius: 3, background: 'rgba(255,255,255,.22)', overflow: 'hidden' }}>
+            <motion.div style={{ height: '100%', background: '#fff', borderRadius: 3 }}
+              animate={{ x: ['-100%', '180%'] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+              initial={{ width: '55%' }} />
+          </div>
           <div className="mono" style={{ fontSize: 10.5, color: 'rgba(255,255,255,.7)', letterSpacing: '0.22em' }}>
             LOADING TONIGHT…
           </div>
@@ -94,9 +63,8 @@ function OnbShell({ photo, eyebrow, title, text, idx, nav, accent }) {
         <div style={{ position: 'relative', height: 380 }}>
           <img src={photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(12,12,15,.2), var(--ink))' }} />
-          <div className="mstrip" style={{ position: 'absolute', top: 60, left: 0, right: 0, transform: 'rotate(-3deg) scale(1.1)' }}>
-            <div className="t">{Array(6).fill('CITYLIFE ✦ ').join('')}</div>
-          </div>
+          <Marquee className="" style={{ position: 'absolute', top: 60, left: 0, right: 0, transform: 'rotate(-3deg) scale(1.1)' }}
+            words={['CITYLIFE', 'LIVING DATABASE', 'THIS WEEKEND', 'FUN', 'TONIGHT', 'SCAN THE CITY']} dur={18} />
         </div>
         <motion.div className="pad" style={{ marginTop: -30, position: 'relative' }}
           initial="h" animate="s" variants={{ s: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } } }}>

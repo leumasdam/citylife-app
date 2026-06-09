@@ -1,6 +1,6 @@
 import { StatusBar, TabBar, HomeBar } from '../phone/Phone'
 import { EVENTS, CATS, byId, img, cover } from '../data/events'
-import { EventCard, EventRow, EventBar, SecHead, CatTag, BackHeader } from '../ui'
+import { EventCard, EventRow, EventBar, SecHead, CatTag, BackHeader, Marquee } from '../ui'
 import { MapBg } from './onboarding'
 import { Bell, Pin, Search as SearchIc, Filter, Clock, Heart, Users, Star, Flash, Arrow, Check, Message } from '../lib/icons'
 import { useState } from 'react'
@@ -50,9 +50,8 @@ export function Home({ nav, ctx }) {
           <EventCard ev={hot} nav={nav} saved={ctx.saved.has(hot.id)} onSave={ctx.toggle} />
         </div>
 
-        <div className="mstrip" style={{ marginTop: 22, transform: 'rotate(-1.5deg) scale(1.05)' }}>
-          <div className="t">{Array(6).fill('NEW DROPS ✦ THIS IS NOT A FOMO ALERT ✦ ').join('')}</div>
-        </div>
+        <Marquee className="" style={{ marginTop: 22, transform: 'rotate(-1.5deg) scale(1.05)' }}
+          words={['NEW DROPS', 'LIVING DATABASE', 'TONIGHT', 'NEAR YOU', 'SCAN ANYTHING', 'FUN']} dur={20} />
 
         <div className="pad" style={{ marginTop: 22 }}>
           <SecHead eyebrow="Closest to you" title="Near you" more="Map" onMore={() => nav('map')} />

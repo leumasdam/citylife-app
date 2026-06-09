@@ -1,8 +1,8 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { StatusBar, HomeBar } from '../phone/Phone'
-import { byId, img, posterImg } from '../data/events'
-import { CatTag, EventBar } from '../ui'
-import { X, Flash, Image as ImageIc, Pin, Clock, Arrow, Check } from '../lib/icons'
+import { EVENTS, posterImg, cover } from '../data/events'
+import { X, Flash, Image as ImageIc, Arrow, Check } from '../lib/icons'
 
 function ScannerChrome({ nav, scanning = true }) {
   return (
@@ -52,29 +52,54 @@ export function Scanner({ nav }) {
   )
 }
 
+const SCAN_FILTERS = ['Tonight', 'Free', 'Techno', 'Live', '< 2 km']
+
+const SCAN_TEST = [
+  () => true,
+  (e) => e.priceNum === 0,
+  (e) => e.cat === 'techno',
+  (e) => e.cat === 'live',
+  (e) => parseFloat(e.dist) < 2,
+]
+
 export function ScanResult({ nav, ctx }) {
-  const ev = byId('soc-heal')
+  const [f, setF] = useState(0)
+  // the scanned campaign poster is a doorway into the whole live database
+  const list = EVENTS.filter(SCAN_TEST[f])
   return (
     <>
       <StatusBar />
       <div className="body scanview">
         <ScannerChrome nav={nav} scanning={false} />
-        <motion.div style={{ position: 'absolute', inset: 0, background: 'rgba(6,6,9,.5)' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
-        {/* success sheet */}
-        <motion.div className="sheet" style={{ paddingBottom: 22 }}
-          initial={{ y: 320 }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 280, damping: 30 }}>
+        <motion.div style={{ position: 'absolute', inset: 0, background: 'rgba(6,6,9,.55)' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+        {/* results sheet — a live list of what this poster unlocks */}
+        <motion.div className="sheet scan-sheet" initial={{ y: 420 }} animate={{ y: 0 }} transition={{ type: 'spring', stiffness: 280, damping: 30 }}>
           <div className="grab" />
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-            <motion.div className="center" style={{ width: 30, height: 30, borderRadius: '50%', background: 'var(--green)' }}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+            <motion.div className="center" style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--green)', flex: '0 0 auto' }}
               initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.25, type: 'spring', stiffness: 500, damping: 18 }}>
-              <Check s={18} w={3} />
+              <Check s={17} w={3} />
             </motion.div>
-            <div className="eyebrow" style={{ color: 'var(--green)' }}>Poster recognised · event unlocked</div>
+            <div>
+              <div className="eyebrow" style={{ color: 'var(--green)' }}>Poster recognised</div>
+              <div style={{ fontSize: 12.5, color: 'var(--muted)', marginTop: 2 }}>Live database · {list.length} events tonight</div>
+            </div>
           </div>
-          <div style={{ marginBottom: 16 }}><EventBar ev={ev} nav={nav} /></div>
-          <div style={{ display: 'flex', gap: 12 }}>
-            <button className="btn btn-dark" style={{ flex: '0 0 56px', padding: 0, height: 54 }} onClick={() => ctx.toggle(ev.id)}>♡</button>
-            <button className="btn btn-blue" onClick={() => nav('detail', { id: ev.id })}>Open event <Arrow s={18} /></button>
+          <div className="chiprow" style={{ marginBottom: 12 }}>
+            {SCAN_FILTERS.map((t, i) => <button key={t} className={`chip ${i === f ? 'blue' : ''}`} onClick={() => setF(i)}>{i === f && <Check s={13} />}{t}</button>)}
+          </div>
+          <div className="scan-list">
+            {list.map((e) => (
+              <div key={e.id} className="erow" onClick={() => nav('detail', { id: e.id })}>
+                <div className="thumb" style={{ background: cover(e).bg }}><img src={cover(e).src} alt="" /></div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h4>{e.title}</h4>
+                  <div className="sub">{e.venue} · {e.area}</div>
+                  <div className="sub" style={{ color: 'var(--blue-2)', marginTop: 2 }}>{e.time.split(' – ')[0]} · {e.price}</div>
+                </div>
+                <Arrow s={18} />
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>

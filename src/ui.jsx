@@ -72,6 +72,20 @@ export function EventRow({ ev, nav, right }) {
   )
 }
 
+/* seamless marquee strip (two duplicated blocks → loops with no gap) */
+export function Marquee({ words, dur = 16, className = '', style }) {
+  const block = (
+    <span className="mblock" aria-hidden>
+      {words.map((w, i) => <span key={i}>{w}<i className="mdot">✦</i></span>)}
+    </span>
+  )
+  return (
+    <div className={`mstrip ${className}`} style={style}>
+      <div className="mtrack" style={{ animationDuration: `${dur}s` }}>{block}{block}</div>
+    </div>
+  )
+}
+
 /* horizontal poster card for sheets / scan result / chat */
 export function EventBar({ ev, nav, onClick }) {
   const c = cover(ev)

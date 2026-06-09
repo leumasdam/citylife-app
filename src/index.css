@@ -282,13 +282,14 @@ ul { list-style: none; }
 .sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 80; background: var(--surface); border-radius: 26px 26px 0 0; border-top: 1px solid var(--line); padding: 10px 20px 24px; }
 .sheet .grab { width: 40px; height: 4px; border-radius: 3px; background: rgba(255,255,255,0.25); margin: 4px auto 14px; }
 
-/* marquee strip */
+/* marquee strip — seamless loop via two duplicated blocks */
 .mstrip { overflow: hidden; background: var(--yellow); color: #0b0b0d; }
-.mstrip .t { display: inline-flex; white-space: nowrap; font-family: var(--display); text-transform: uppercase; font-size: 15px; padding: 7px 0; gap: 22px; animation: slide 18s linear infinite; }
+.mtrack { display: flex; width: max-content; animation: slide 16s linear infinite; }
+.mblock { display: flex; align-items: center; font-family: var(--display); text-transform: uppercase; font-size: 15px; padding: 7px 0; white-space: nowrap; flex: 0 0 auto; }
+.mblock > span { display: inline-flex; align-items: center; gap: 18px; padding: 0 9px; }
+.mdot { font-style: normal; }
 
-/* splash: city skyline loader — windows light up in a left→right wave */
-.city-loader .win { animation: winlit 2.2s ease-in-out infinite; transform-box: fill-box; }
-@keyframes winlit { 0%, 100% { opacity: 0.12; } 44%, 60% { opacity: 1; } }
+/* splash logo gentle float */
 @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 .splash-float { animation: floaty 4s ease-in-out infinite; }
 
@@ -328,6 +329,13 @@ ul { list-style: none; }
 
 .match-toast { position: absolute; left: 14px; right: 14px; bottom: 92px; z-index: 90; display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 22px 50px -16px rgba(0,0,0,0.6); }
 .match-toast b { font-size: 13.5px; display: block; } .match-toast span { font-size: 12px; color: var(--muted); }
+
+/* scan-result: live event list sheet */
+.scan-sheet { max-height: 74%; display: flex; flex-direction: column; }
+.scan-list { overflow-y: auto; scrollbar-width: none; margin: 0 -4px; padding: 0 4px; }
+.scan-list::-webkit-scrollbar { display: none; }
+.scan-list .erow { padding: 9px 0; border-bottom: 1px solid var(--line-2); }
+.scan-list .erow:last-child { border-bottom: 0; }
 
 /* home swipe banner */
 .swipe-banner { position: relative; overflow: hidden; border-radius: var(--r); padding: 18px; background: linear-gradient(120deg, var(--blue), #6f3bd0 90%); color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
