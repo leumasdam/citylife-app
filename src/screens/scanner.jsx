@@ -29,7 +29,7 @@ export function Scanner({ nav }) {
       <div className="body scanview">
         <ScannerChrome nav={nav} />
         {/* top controls */}
-        <div className="row-between" style={{ position: 'absolute', top: 8, left: 20, right: 20, zIndex: 10 }}>
+        <div className="row-between" style={{ position: 'absolute', top: 54, left: 20, right: 20, zIndex: 10 }}>
           <button className="center" style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(0,0,0,.5)', border: '1px solid var(--line)' }} onClick={() => nav('home')}><X s={20} /></button>
           <div className="mono upper" style={{ fontSize: 12 }}>Scan poster</div>
           <button className="center" style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(0,0,0,.5)', border: '1px solid var(--line)' }}><Flash s={20} /></button>
@@ -85,7 +85,7 @@ export function ScanResult({ nav, ctx }) {
               <div style={{ fontSize: 12.5, color: 'var(--muted)', marginTop: 2 }}>Live database · {list.length} events tonight</div>
             </div>
           </div>
-          <div className="chiprow" style={{ marginBottom: 12 }}>
+          <div className="chiprow" style={{ marginBottom: 12, flexWrap: 'wrap', overflowX: 'visible' }}>
             {SCAN_FILTERS.map((t, i) => <button key={t} className={`chip ${i === f ? 'blue' : ''}`} onClick={() => setF(i)}>{i === f && <Check s={13} />}{t}</button>)}
           </div>
           <div className="scan-list">

@@ -7,8 +7,13 @@ import { motion } from 'framer-motion'
 
 const fadeUp = { h: { opacity: 0, y: 18 }, s: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }
 
-// day ⇄ night loop — every layer that should sync with nightfall uses this exact transition
-const dayNight = { duration: 3.8, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }
+// one full day → night → day cycle. The sky darkens FIRST; the lamp only
+// switches on once night has fallen, then goes out again before daybreak.
+const CYCLE = 8.2
+// sky: 4 keyframes — darken, hold dark, lighten back
+const skyFall = { duration: CYCLE, repeat: Infinity, ease: 'easeInOut', times: [0, 0.22, 0.8, 1] }
+// lamp: 5 keyframes — off through the (quicker) darkening, switch on early, hold, switch off
+const lampOn = { duration: CYCLE, repeat: Infinity, ease: 'easeInOut', times: [0, 0.2, 0.32, 0.74, 0.84] }
 
 function StreetLamp() {
   return (
@@ -25,9 +30,9 @@ function StreetLamp() {
           <stop offset="100%" stopColor="#ffd98a" stopOpacity="0" />
         </linearGradient>
       </defs>
-      {/* warm halo + light cone — fade in as night falls */}
-      <motion.ellipse cx="250" cy="208" rx="250" ry="250" fill="url(#lampGlow)" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={dayNight} />
-      <motion.polygon points="241,206 261,206 360,640 150,640" fill="url(#lampCone)" initial={{ opacity: 0 }} animate={{ opacity: 0.85 }} transition={dayNight} />
+      {/* warm halo + light cone — only switch on AFTER the sky has gone dark */}
+      <motion.ellipse cx="250" cy="208" rx="250" ry="250" fill="url(#lampGlow)" initial={{ opacity: 0 }} animate={{ opacity: [0, 0, 1, 1, 0] }} transition={lampOn} />
+      <motion.polygon points="241,206 261,206 360,640 150,640" fill="url(#lampCone)" initial={{ opacity: 0 }} animate={{ opacity: [0, 0, 0.85, 0.85, 0] }} transition={lampOn} />
       {/* pole + shepherd's-crook arm (silhouette, always visible) */}
       <g stroke="#0a1340" strokeWidth="7" fill="none" strokeLinecap="round">
         <line x1="302" y1="844" x2="302" y2="248" />
@@ -36,7 +41,7 @@ function StreetLamp() {
       <rect x="288" y="826" width="28" height="18" rx="2" fill="#0a1340" />
       {/* lamp head: dark housing + warm core that switches on */}
       <path d="M243 195 L269 195 L264 221 L248 221 Z" fill="#0a1340" />
-      <motion.path d="M247 199 L265 199 L261 218 L251 218 Z" fill="#ffe6a6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={dayNight} />
+      <motion.path d="M247 199 L265 199 L261 218 L251 218 Z" fill="#ffe6a6" initial={{ opacity: 0 }} animate={{ opacity: [0, 0, 1, 1, 0] }} transition={lampOn} />
     </svg>
   )
 }
@@ -48,7 +53,7 @@ export function Splash() {
       <div className="body center" style={{ overflow: 'hidden', background: 'linear-gradient(180deg, #4a68ff 0%, #2a45d6 100%)' }}>
         {/* nightfall layer cross-fades over the day sky */}
         <motion.div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, #070b30 0%, #02030f 100%)' }}
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={dayNight} />
+          initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 1, 0] }} transition={skyFall} />
         <StreetLamp />
         <motion.div
           style={{ position: 'absolute', width: 440, height: 440, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.14)' }}
@@ -168,10 +173,23 @@ export function Location({ nav }) {
           <MapBg />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, var(--ink) 92%)' }} />
           <div className="center" style={{ position: 'absolute', top: 130, left: 0, right: 0 }}>
-            <div style={{ position: 'relative' }}>
-              <div style={{ width: 70, height: 70, borderRadius: '50%', background: 'var(--blue)', display: 'grid', placeItems: 'center', boxShadow: '0 0 0 12px rgba(31,68,255,.18), 0 0 0 28px rgba(31,68,255,.08)', color: '#fff' }}>
-                <Pin s={30} />
-              </div>
+            <div className="center" style={{ position: 'relative', width: 70, height: 70 }}>
+              {/* radar sweeps pinging out from the pin */}
+              {[0, 1, 2].map((i) => (
+                <motion.span key={i} style={{ position: 'absolute', width: 70, height: 70, borderRadius: '50%', border: '2px solid var(--blue)' }}
+                  initial={{ scale: 1, opacity: 0.5 }}
+                  animate={{ scale: 3.4, opacity: 0 }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut', delay: i * 0.8 }} />
+              ))}
+              {/* the pin drops in, then keeps a gentle breathing pulse */}
+              <motion.div className="center" style={{ width: 70, height: 70, borderRadius: '50%', background: 'var(--blue)', boxShadow: '0 0 0 12px rgba(31,68,255,.18), 0 0 0 28px rgba(31,68,255,.08)', color: '#fff' }}
+                initial={{ scale: 0, y: -30, opacity: 0 }}
+                animate={{ scale: [0, 1.15, 1], y: 0, opacity: 1 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], times: [0, 0.7, 1] }}>
+                <motion.div animate={{ scale: [1, 1.12, 1] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}>
+                  <Pin s={30} />
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </div>

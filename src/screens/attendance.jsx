@@ -3,6 +3,7 @@ import { EVENTS, byId, img, cover } from '../data/events'
 import { EventCard, EventRow, SecHead, BackHeader, CatTag, QR } from '../ui'
 import { Ticket, Pin, Clock, Flash, Bell, Heart, Check, Arrow, Star, Cal } from '../lib/icons'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 
 export function Saved({ nav, ctx }) {
   const [tab, setTab] = useState('interested')
@@ -107,20 +108,54 @@ export function TicketPass({ nav, params, ctx }) {
   )
 }
 
+// deterministic confetti burst — varied angle, distance, colour, spin per piece
+const CONFETTI = Array.from({ length: 16 }, (_, i) => {
+  const ang = (i / 16) * Math.PI * 2 + (i % 3) * 0.4
+  const dist = 120 + (i % 5) * 26
+  const colors = ['var(--green)', 'var(--yellow)', 'var(--pink)', '#fff', 'var(--blue-2)']
+  return { x: Math.cos(ang) * dist, y: Math.sin(ang) * dist - 40, c: colors[i % colors.length], r: (i % 4) * 120, d: 0.35 + (i % 6) * 0.05 }
+})
+
 export function Checkin({ nav }) {
   const ev = byId('soc-heal')
+  const fadeUp = { h: { opacity: 0, y: 16 }, s: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }
   return (
     <>
       <StatusBar />
-      <div className="body center" style={{ background: 'var(--blue)', textAlign: 'center', padding: 24 }}>
-        <div className="stack" style={{ alignItems: 'center', gap: 18 }}>
-          <div className="center" style={{ width: 96, height: 96, borderRadius: '50%', background: 'var(--green)', boxShadow: '0 0 0 16px rgba(195,245,62,.18)' }}><Check s={52} w={3} /></div>
-          <div>
-            <div className="mono upper" style={{ fontSize: 12, color: 'rgba(255,255,255,.8)', marginBottom: 10 }}>Checked in · 22:04</div>
-            <h1 className="display" style={{ fontSize: 44 }}>YOU’RE IN!</h1>
-            <p style={{ color: 'rgba(255,255,255,.9)', marginTop: 12, fontSize: 16 }}>Welcome to <b>{ev.title}</b><br />Have the night of your life.</p>
+      <div className="body center" style={{ background: 'var(--blue)', textAlign: 'center', padding: 24, overflow: 'hidden' }}>
+        <motion.div className="stack" style={{ alignItems: 'center', gap: 18, position: 'relative', marginTop: 110 }}
+          initial="h" animate="s" variants={{ s: { transition: { staggerChildren: 0.12, delayChildren: 0.45 } } }}>
+          {/* badge + celebratory rings + confetti */}
+          <div style={{ position: 'relative', width: 96, height: 96, display: 'grid', placeItems: 'center' }}>
+            {/* confetti shoots out as the badge lands */}
+            {CONFETTI.map((p, i) => (
+              <motion.span key={i} style={{ position: 'absolute', width: 9, height: 9, borderRadius: 2, background: p.c }}
+                initial={{ opacity: 0, x: 0, y: 0, scale: 0.4, rotate: 0 }}
+                animate={{ opacity: [0, 1, 1, 0], x: p.x, y: p.y, scale: [0.4, 1, 0.9], rotate: p.r }}
+                transition={{ duration: 1.1, delay: 0.5 + p.d, ease: 'easeOut' }} />
+            ))}
+            {/* pulsing halo that keeps breathing */}
+            <motion.span style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid rgba(195,245,62,.5)' }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: [1, 1.9], opacity: [0.6, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut', delay: 0.6 }} />
+            {/* the green check pops in with an overshoot, then settles */}
+            <motion.div className="center" style={{ width: 96, height: 96, borderRadius: '50%', background: 'var(--green)', boxShadow: '0 0 0 16px rgba(195,245,62,.18)' }}
+              initial={{ scale: 0, rotate: -25 }}
+              animate={{ scale: [0, 1.18, 1], rotate: [-25, 0, 0] }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], times: [0, 0.6, 1] }}>
+              <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.4, type: 'spring', stiffness: 500, damping: 16 }}>
+                <Check s={52} w={3} />
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
+          <div>
+            <motion.div variants={fadeUp} className="mono upper" style={{ fontSize: 12, color: 'rgba(255,255,255,.8)', marginBottom: 10 }}>Checked in · 22:04</motion.div>
+            <motion.h1 variants={fadeUp} className="display" style={{ fontSize: 44 }}>YOU’RE IN!</motion.h1>
+            <motion.p variants={fadeUp} style={{ color: 'rgba(255,255,255,.9)', marginTop: 12, fontSize: 16 }}>Welcome to <b>{ev.title}</b><br />Have the night of your life.</motion.p>
+          </div>
+        </motion.div>
       </div>
       <div className="dock" style={{ background: 'linear-gradient(to top, var(--blue) 60%, transparent)' }}>
         <button className="btn btn-white" onClick={() => nav('home')}>Back to tonight</button>

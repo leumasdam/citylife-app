@@ -318,7 +318,7 @@ export function ARScan({ nav }) {
         })}
 
         {/* top bar */}
-        <div className="row-between" style={{ position: 'absolute', top: 8, left: 20, right: 20, zIndex: 10, color: '#fff' }}>
+        <div className="row-between" style={{ position: 'absolute', top: 54, left: 20, right: 20, zIndex: 10, color: '#fff' }}>
           <button className="center" style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(0,0,0,.5)', border: '1px solid rgba(255,255,255,.2)' }} onClick={() => nav('home')}><Arrow s={20} style={{ transform: 'rotate(180deg)' }} /></button>
           <div className="mono upper" style={{ fontSize: 12 }}>AR · look around</div>
           <div style={{ width: 40 }} />

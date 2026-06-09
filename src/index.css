@@ -145,7 +145,7 @@ ul { list-style: none; }
    APP UI KIT
    ================================================================= */
 .app-h { display: flex; align-items: center; justify-content: space-between; padding: 6px 20px 14px; }
-.app-h .hello { font-size: 13px; color: var(--muted); }
+.app-h .hello { font-size: 13px; color: var(--muted); margin-bottom: 5px; }
 .app-h .title { font-family: var(--display); text-transform: uppercase; font-size: 30px; line-height: 0.9; }
 .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--blue)); border: 1px solid var(--line); display: grid; place-items: center; font-weight: 800; }
 
