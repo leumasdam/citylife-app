@@ -6,6 +6,35 @@ import { motion } from 'framer-motion'
 
 const fadeUp = { h: { opacity: 0, y: 18 }, s: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }
 
+/* grid of "city windows" lit in a diagonal wave, masked to the logo shape */
+const WIN_COLS = 11, WIN_ROWS = 14
+const WINDOWS = (() => {
+  const cols = ['#f3ff36', '#ffffff', '#f3ff36', '#9fe8ff', '#ff5ec7', '#ffffff', '#f3ff36']
+  const a = []
+  for (let r = 0; r < WIN_ROWS; r++) for (let c = 0; c < WIN_COLS; c++) {
+    const delay = ((c + r) % 9) * 0.16 + ((c * 7 + r * 3) % 5) * 0.06
+    a.push({ l: ((c + 0.5) / WIN_COLS) * 100, t: ((r + 0.5) / WIN_ROWS) * 100, delay, col: cols[(c * 3 + r * 5) % cols.length] })
+  }
+  return a
+})()
+
+const LOGO_MASK = './brand/logo-white.png'
+const maskStyle = { WebkitMaskImage: `url(${LOGO_MASK})`, maskImage: `url(${LOGO_MASK})`, WebkitMaskSize: '100% 100%', maskSize: '100% 100%', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat' }
+
+export function SplashLogo({ width = 234 }) {
+  return (
+    <div className="splash-logo" style={{ width }}>
+      <img src="./brand/logo-white.png" alt="CITYLIFE" style={{ width: '100%', display: 'block' }} />
+      <div className="win-layer" style={maskStyle}>
+        {WINDOWS.map((w, i) => (
+          <i key={i} className="win" style={{ left: `${w.l}%`, top: `${w.t}%`, background: w.col, animationDelay: `${w.delay}s` }} />
+        ))}
+      </div>
+      <div className="shine-layer" style={maskStyle} />
+    </div>
+  )
+}
+
 export function Splash() {
   return (
     <>
@@ -21,12 +50,13 @@ export function Splash() {
           animate={{ rotate: -360 }} transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
         />
         <div className="stack" style={{ alignItems: 'center', gap: 20, position: 'relative' }}>
-          <motion.img
-            src="./brand/logo-white.png" alt="CITYLIFE" style={{ width: 232 }}
+          <motion.div
             initial={{ scale: 0.6, opacity: 0, y: 8 }}
             animate={{ scale: [0.6, 1.06, 1], opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], times: [0, 0.7, 1] }}
-          />
+          >
+            <SplashLogo width={236} />
+          </motion.div>
           <motion.div className="mono upper" style={{ fontSize: 12, color: 'rgba(255,255,255,.85)', letterSpacing: '0.3em' }}
             initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }}>
             the city, scannable

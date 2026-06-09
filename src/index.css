@@ -286,6 +286,23 @@ ul { list-style: none; }
 .mstrip { overflow: hidden; background: var(--yellow); color: #0b0b0d; }
 .mstrip .t { display: inline-flex; white-space: nowrap; font-family: var(--display); text-transform: uppercase; font-size: 15px; padding: 7px 0; gap: 22px; animation: slide 18s linear infinite; }
 
+/* splash logo: city windows lighting up + light sweep */
+.splash-logo { position: relative; }
+.win-layer, .shine-layer { position: absolute; inset: 0; pointer-events: none; }
+.win-layer .win {
+  position: absolute; width: 4.5px; height: 5.5px; border-radius: 1px;
+  transform: translate(-50%, -50%); opacity: 0;
+  animation: winflicker 2.8s ease-in-out infinite;
+  box-shadow: 0 0 5px 1px currentColor;
+}
+@keyframes winflicker { 0%, 70%, 100% { opacity: 0; } 18%, 40% { opacity: 1; } }
+.shine-layer {
+  background: linear-gradient(108deg, transparent 38%, rgba(255,255,255,0.85) 50%, rgba(243,255,54,0.5) 53%, transparent 64%);
+  background-size: 260% 100%; mix-blend-mode: screen;
+  animation: shine 3.4s ease-in-out 0.6s infinite;
+}
+@keyframes shine { 0% { background-position: 175% 0; } 55%, 100% { background-position: -75% 0; } }
+
 @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes scan { 0%,100% { top: 18%; } 50% { top: 78%; } }
 .scanline { animation: scan 2.4s ease-in-out infinite; }
