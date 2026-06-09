@@ -71,7 +71,7 @@ export function Organizer({ nav }) {
         </div>
         <div className="pad" style={{ marginTop: -44, position: 'relative' }}>
           <div style={{ width: 84, height: 84, borderRadius: 22, background: 'var(--blue)', display: 'grid', placeItems: 'center', border: '3px solid var(--ink)' }}>
-            <img src="./brand/logo-white.png" style={{ width: 56 }} alt="" />
+            <img src="./brand/logo-white.png" style={{ width: 74 }} alt="" />
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 14 }}>
             <h1 className="heavy" style={{ fontSize: 26, textTransform: 'uppercase' }}>Nová Cvernovka</h1>

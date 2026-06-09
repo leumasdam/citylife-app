@@ -266,7 +266,7 @@ export function Detail({ nav, params, ctx }) {
 
           <button className="row-between" onClick={() => nav('organizer')} style={{ width: '100%', marginTop: 22, padding: 14, borderRadius: 16, background: 'var(--card)', border: '1px solid var(--line)' }}>
             <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ width: 44, height: 44, borderRadius: 13, background: 'var(--blue)', display: 'grid', placeItems: 'center' }}><img src="./brand/logo-white.png" style={{ width: 30 }} alt="" /></span>
+              <span style={{ width: 44, height: 44, borderRadius: 13, background: 'var(--blue)', display: 'grid', placeItems: 'center' }}><img src="./brand/logo-white.png" style={{ width: 39 }} alt="" /></span>
               <span style={{ textAlign: 'left' }}><span style={{ display: 'flex', gap: 5, alignItems: 'center', fontWeight: 700 }}>Hosted by {ev.venue} <Star s={13} fill="var(--blue-2)" /></span><span style={{ fontSize: 12.5, color: 'var(--muted)' }}>View organizer · message</span></span>
             </span>
             <Arrow s={18} />
