@@ -89,6 +89,14 @@ export const EVENTS = [
     lineup: ['Curator tour', 'ambient set'], rating: 4.5,
   },
   {
+    id: 'steal-font', title: 'Who Owns A Letter?', cat: 'talk', img: 'design',
+    poster: 'stealfont', bg: '#0a0b12',
+    venue: 'Satelit – SCD', area: 'Hviezdoslavovo', date: 'Thu 11 Jun', day: '11', mon: 'JUN',
+    time: '18:30 – 21:00', price: 'Free', priceNum: 0, going: 134, friends: 2, dist: '0.8 km',
+    about: 'You wouldn’t steal a car. You wouldn’t steal a font — except the famous anti-piracy ad did, with an unlicensed typeface. A panel + open debate on authorship, fair use and credit in the age of generative AI.',
+    lineup: ['Panel', 'open debate'], rating: 4.6,
+  },
+  {
     id: 'skate', title: 'Curb Culture', cat: 'community', img: 'skate',
     venue: 'Sad Janka Kráľa', area: 'Petržalka', date: 'Sun 14 Jun', day: '14', mon: 'JUN',
     time: '14:00 – 20:00', price: 'Free', priceNum: 0, going: 188, friends: 3, dist: '2.4 km',

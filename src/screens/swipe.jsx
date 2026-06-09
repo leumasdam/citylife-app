@@ -6,7 +6,7 @@ import { CatTag } from '../ui'
 import { X, Heart, Flash, Pin, Clock, Arrow, Check, Users, Send } from '../lib/icons'
 
 // deck order — lead with events your crew is into (the social hook)
-const DECK = ['soc-heal', 'dnb', 'fomo', 'festival', 'mountains', 'vinyl', 'skate', 'ufo', 'market2', 'jazz', 'petrzalka', 'complain', 'gallery', 'art-live']
+const DECK = ['soc-heal', 'dnb', 'fomo', 'festival', 'art-live', 'steal-font', 'mountains', 'vinyl', 'skate', 'ufo', 'market2', 'jazz', 'petrzalka', 'complain', 'gallery']
 
 function CrewStrip({ crew, light }) {
   const named = crew.filter((c) => !c.fof)
