@@ -7,28 +7,56 @@ import { motion } from 'framer-motion'
 
 const fadeUp = { h: { opacity: 0, y: 18 }, s: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }
 
+// day ⇄ night loop — every layer that should sync with nightfall uses this exact transition
+const dayNight = { duration: 3.8, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }
+
+function StreetLamp() {
+  return (
+    <svg viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" aria-hidden
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+      <defs>
+        <radialGradient id="lampGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffe6a6" stopOpacity="0.95" />
+          <stop offset="32%" stopColor="#ffc257" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#ffc257" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="lampCone" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffd98a" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#ffd98a" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {/* warm halo + light cone — fade in as night falls */}
+      <motion.ellipse cx="250" cy="208" rx="250" ry="250" fill="url(#lampGlow)" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={dayNight} />
+      <motion.polygon points="241,206 261,206 360,640 150,640" fill="url(#lampCone)" initial={{ opacity: 0 }} animate={{ opacity: 0.85 }} transition={dayNight} />
+      {/* pole + shepherd's-crook arm (silhouette, always visible) */}
+      <g stroke="#0a1340" strokeWidth="7" fill="none" strokeLinecap="round">
+        <line x1="302" y1="844" x2="302" y2="248" />
+        <path d="M302 248 Q302 198 256 196" />
+      </g>
+      <rect x="288" y="826" width="28" height="18" rx="2" fill="#0a1340" />
+      {/* lamp head: dark housing + warm core that switches on */}
+      <path d="M243 195 L269 195 L264 221 L248 221 Z" fill="#0a1340" />
+      <motion.path d="M247 199 L265 199 L261 218 L251 218 Z" fill="#ffe6a6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={dayNight} />
+    </svg>
+  )
+}
+
 export function Splash() {
   return (
     <>
       <StatusBar />
-      <div className="body center" style={{ background: 'var(--blue)', overflow: 'hidden' }}>
+      <div className="body center" style={{ overflow: 'hidden', background: 'linear-gradient(180deg, #4a68ff 0%, #2a45d6 100%)' }}>
+        {/* nightfall layer cross-fades over the day sky */}
+        <motion.div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, #070b30 0%, #02030f 100%)' }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={dayNight} />
+        <StreetLamp />
         <motion.div
-          style={{ position: 'absolute', width: 460, height: 460, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.2)' }}
-          animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+          style={{ position: 'absolute', width: 440, height: 440, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.14)' }}
+          animate={{ rotate: 360 }} transition={{ duration: 42, repeat: Infinity, ease: 'linear' }}
         />
-        <motion.div
-          style={{ position: 'absolute', width: 320, height: 320, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.14)' }}
-          animate={{ rotate: -360 }} transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
-        />
-        {/* soft glow that breathes behind the logo */}
-        <motion.div
-          style={{ position: 'absolute', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(closest-side, rgba(255,255,255,.5), transparent 70%)', filter: 'blur(26px)' }}
-          animate={{ opacity: [0.25, 0.6, 0.25], scale: [0.9, 1.08, 0.9] }}
-          transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <div className="stack" style={{ alignItems: 'center', gap: 18, position: 'relative' }}>
+        <div className="stack" style={{ alignItems: 'center', gap: 18, position: 'relative', zIndex: 2 }}>
           <motion.img
-            className="splash-float" src="./brand/logo-white.png" alt="CITYLIFE" style={{ width: 232 }}
+            className="splash-float" src="./brand/logo-white.png" alt="CITYLIFE" style={{ width: 232, filter: 'drop-shadow(0 6px 30px rgba(0,0,0,0.25))' }}
             initial={{ scale: 0.6, opacity: 0, y: 8 }}
             animate={{ scale: [0.6, 1.06, 1], opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], times: [0, 0.7, 1] }}
@@ -38,12 +66,11 @@ export function Splash() {
             the city, scannable
           </motion.div>
         </div>
-        <motion.div style={{ position: 'absolute', bottom: 66, left: 0, right: 0, display: 'grid', placeItems: 'center', gap: 14 }}
+        <motion.div style={{ position: 'absolute', bottom: 66, left: 0, right: 0, display: 'grid', placeItems: 'center', gap: 14, zIndex: 2 }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.6 }}>
-          <div style={{ width: 150, height: 4, borderRadius: 3, background: 'rgba(255,255,255,.22)', overflow: 'hidden' }}>
-            <motion.div style={{ height: '100%', background: '#fff', borderRadius: 3 }}
-              animate={{ x: ['-100%', '180%'] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-              initial={{ width: '55%' }} />
+          <div style={{ width: 150, height: 4, borderRadius: 3, background: 'rgba(255,255,255,.2)', overflow: 'hidden' }}>
+            <motion.div style={{ height: '100%', width: '55%', background: '#fff', borderRadius: 3 }}
+              animate={{ x: ['-100%', '180%'] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }} />
           </div>
           <div className="mono" style={{ fontSize: 10.5, color: 'rgba(255,255,255,.7)', letterSpacing: '0.22em' }}>
             LOADING TONIGHT…
