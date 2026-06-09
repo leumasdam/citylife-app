@@ -23,7 +23,7 @@ export const EVENTS = [
   },
   {
     id: 'fomo', title: 'Roller Disco', cat: 'party', img: 'rooftop',
-    poster: 'roller', bg: '#ece9df',
+    poster: 'roller', bg: '#7d7f1e',
     venue: 'Rooftop Manderlák', area: 'Old Town', date: 'Sat 13 Jun', day: '13', mon: 'JUN',
     time: '18:00 – 02:00', price: '8€', priceNum: 8, going: 268, friends: 5, dist: '0.6 km',
     about: 'Eight wheels, disco lights and a rooftop that never sits down. Skates on, ego off — sunset to last song.',
@@ -38,7 +38,7 @@ export const EVENTS = [
   },
   {
     id: 'ufo', title: 'What Is Life?', cat: 'film', img: 'cinema',
-    poster: 'whatislife', bg: '#1c2740',
+    poster: 'whatislife', bg: '#ece9df',
     venue: 'Magio Pláž', area: 'Petržalka', date: 'Thu 11 Jun', day: '11', mon: 'JUN',
     time: '21:30 – 23:30', price: '6€', priceNum: 6, going: 154, friends: 2, dist: '2.1 km',
     about: 'An open-air night of cult short films and slow conversations on the riverbank. Bring a blanket and a question.',

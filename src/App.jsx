@@ -63,7 +63,7 @@ function ScreenHost({ id, params, nav, ctx }) {
 
 export default function App() {
   const [mode, setMode] = useState('gallery')
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('dark')
   return (
     <div className="stage">
       <header className="stage-head">
