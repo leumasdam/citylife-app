@@ -13,9 +13,9 @@ function ScannerChrome({ nav, scanning = true }) {
       <div className="scan-window">
         <div className="scan-corners"><span /><span /><span /><span /></div>
         {scanning && <div className="scanline" style={{ top: '50%' }} />}
-        {/* the real Society Is Healing poster (with its own QR) framed inside the reticle */}
+        {/* an event poster framed inside the reticle */}
         <div className="center" style={{ position: 'absolute', inset: '12%' }}>
-          <img src={posterImg('society')} alt="" style={{ width: '78%', borderRadius: 6, transform: 'rotate(-3deg)', boxShadow: '0 12px 34px rgba(0,0,0,.55)' }} />
+          <img src={posterImg('crisist')} alt="" style={{ width: '78%', borderRadius: 6, transform: 'rotate(-3deg)', boxShadow: '0 12px 34px rgba(0,0,0,.55)' }} />
         </div>
       </div>
     </>
