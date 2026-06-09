@@ -121,6 +121,30 @@ export const EVENTS = [
   },
 ]
 
+// your crew (connections) — used for social proof + community matching
+export const CREW = [
+  { n: 'Mia', l: 'M', c: 'var(--pink)' },
+  { n: 'Jakub', l: 'J', c: 'var(--green)' },
+  { n: 'Klára', l: 'K', c: 'var(--yellow)' },
+  { n: 'Leo', l: 'L', c: 'var(--blue)' },
+  { n: 'Aďa', l: 'A', c: 'var(--elev)' },
+  { n: 'Tomáš', l: 'T', c: 'var(--blue-2)' },
+  { n: 'Sára', l: 'S', c: 'var(--pink)' },
+  { n: 'Niko', l: 'N', c: 'var(--green)' },
+]
+
+// deterministic: which crew members are going / interested in an event (social proof)
+export function crewFor(ev) {
+  let s = [...ev.id].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) % 100000, 7)
+  const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647
+  const n = Math.min(ev.friends || 0, 3)
+  const pool = [...CREW]
+  const picked = []
+  for (let i = 0; i < n; i++) picked.push(pool.splice(Math.floor(rnd() * pool.length), 1)[0])
+  const fof = n > 0 && rnd() > 0.6 // friend-of-friend reach
+  return picked.map((p, i) => ({ ...p, status: ev.hot || i === 0 ? 'going' : 'interested' })).concat(fof ? [{ fof: true }] : [])
+}
+
 export const byId = (id) => EVENTS.find((e) => e.id === id)
 export const img = (key) => `./events/${key}.jpg`
 export const posterImg = (key) => `./posters/${key}.jpg`

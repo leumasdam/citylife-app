@@ -7,6 +7,7 @@ import { Scanner, ScanResult } from './screens/scanner'
 import { Saved, Tickets, TicketPass, Checkin, Notifications } from './screens/attendance'
 import { Curated, Profile, Friends, Settings } from './screens/profile'
 import { CreateEvent, Organizer, Messages, Chat, Wallet, Checkout, ARScan } from './screens/extra'
+import { Swipe } from './screens/swipe'
 
 /* screen registry — id → component + gallery caption */
 const SCREENS = {
@@ -18,6 +19,7 @@ const SCREENS = {
   location:      { C: Location,     t: 'Location',         d: 'Find events around you.' },
   auth:          { C: Auth,         t: 'Sign up',          d: 'Join the city, or stay a guest.' },
   home:          { C: Home,         t: 'Home feed',        d: 'Living database — tonight, near you.', tab: 'home' },
+  swipe:         { C: Swipe,        t: 'Swipe deck',       d: 'Tinder-style — find tonight with your crew.' },
   explore:       { C: Explore,      t: 'Explore',          d: 'Categories & trending.', tab: 'explore' },
   map:           { C: MapView,      t: 'Map',              d: 'Events around you, on a map.', tab: 'explore' },
   search:        { C: Search,       t: 'Search & filter',  d: 'Find events, venues, artists.' },
@@ -44,7 +46,7 @@ const SCREENS = {
 
 const GALLERY_ORDER = [
   'splash', 'onb1', 'onb2', 'onb3', 'interests', 'location', 'auth',
-  'home', 'explore', 'map', 'arscan', 'search', 'detail',
+  'home', 'swipe', 'explore', 'map', 'arscan', 'search', 'detail',
   'scanner', 'scanResult',
   'checkout', 'ticketPass', 'wallet', 'saved', 'tickets', 'checkin', 'notifications',
   'organizer', 'createEvent', 'messages', 'chat',

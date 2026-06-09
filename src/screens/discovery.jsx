@@ -37,6 +37,15 @@ export function Home({ nav, ctx }) {
             {CATLIST.map((c) => <button key={c.id} className={`chip ${cat === c.id ? 'on' : ''}`} onClick={() => setCat(c.id)}>{c.label}</button>)}
           </div>
 
+          <button className="swipe-banner" onClick={() => nav('swipe')} style={{ width: '100%', marginBottom: 22, textAlign: 'left' }}>
+            <div>
+              <div className="mono upper" style={{ fontSize: 10, opacity: .8, marginBottom: 6 }}>New · with your crew</div>
+              <div className="display" style={{ fontSize: 24, lineHeight: .95 }}>Swipe to find<br />your night</div>
+              <div style={{ fontSize: 12.5, opacity: .85, marginTop: 6 }}>See what your crew’s into →</div>
+            </div>
+            <div className="sb-cards"><i /><i /><i /></div>
+          </button>
+
           <SecHead eyebrow="Hot tonight" title="Don’t miss" />
           <EventCard ev={hot} nav={nav} saved={ctx.saved.has(hot.id)} onSave={ctx.toggle} />
         </div>
