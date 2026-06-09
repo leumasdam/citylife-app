@@ -193,7 +193,7 @@ export function Auth({ nav }) {
   return (
     <>
       <StatusBar />
-      <div className="body pad center" style={{ textAlign: 'center' }}>
+      <div className="body pad" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 'clamp(64px, 14svh, 130px)' }}>
         <motion.div className="stack" style={{ gap: 22, width: '100%', alignItems: 'center' }}
           initial="h" animate="s" variants={{ s: { transition: { staggerChildren: 0.1 } } }}>
           <motion.div variants={fadeUp} style={{ width: 150, height: 150, borderRadius: 34, background: 'var(--blue)', display: 'grid', placeItems: 'center', boxShadow: '0 24px 60px -20px rgba(31,68,255,.6)' }}>
