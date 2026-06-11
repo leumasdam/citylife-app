@@ -130,6 +130,11 @@ export function Checkin({ nav }) {
     <>
       <StatusBar light />
       <div className="body center screen-indigo" style={{ textAlign: 'center', padding: 24, overflow: 'hidden', color: '#fff' }}>
+        {/* hand note pinned to the very top of the screen */}
+        <motion.p className="hand" style={{ position: 'absolute', top: 10, left: 0, right: 0, textAlign: 'center', fontSize: 25, transform: 'rotate(-1.5deg)' }}
+          initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 0.5 }}>
+          have the night of your life ✦
+        </motion.p>
         <motion.div className="stack" style={{ alignItems: 'center', gap: 38, position: 'relative', marginTop: 24 }}
           initial="h" animate="s" variants={{ s: { transition: { staggerChildren: 0.12, delayChildren: 0.45 } } }}>
           <div style={{ position: 'relative', width: 96, height: 96, display: 'grid', placeItems: 'center' }}>
@@ -147,7 +152,7 @@ export function Checkin({ nav }) {
           <div>
             <motion.div variants={fadeUp} className="mono" style={{ fontSize: 12, color: 'rgba(255,255,255,.8)', marginBottom: 10, letterSpacing: '.14em' }}>CHECKED IN · 22:04</motion.div>
             <motion.h1 variants={fadeUp} className="h-mega" style={{ fontSize: 44 }}>You're in!</motion.h1>
-            <motion.p variants={fadeUp} style={{ color: 'rgba(255,255,255,.9)', marginTop: 12, fontSize: 16 }}>Welcome to <b>{ev.title}</b><br /><span className="hand" style={{ fontSize: 24 }}>have the night of your life ✦</span></motion.p>
+            <motion.p variants={fadeUp} style={{ color: 'rgba(255,255,255,.9)', marginTop: 12, fontSize: 16 }}>Welcome to <b>{ev.title}</b></motion.p>
           </div>
         </motion.div>
       </div>
