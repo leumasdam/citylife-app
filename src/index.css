@@ -347,3 +347,13 @@ ul { list-style: none; }
 .row-between { display: flex; align-items: center; justify-content: space-between; }
 .center { display: grid; place-items: center; }
 .stack { display: flex; flex-direction: column; }
+
+/* embed: single interactive phone (for portfolio iframe ?embed) */
+.stage--embed { padding: 10px 10px 4px; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; background: transparent; overflow: hidden; }
+.stage--embed .device-wrap { gap: 0; }
+.stage--embed .phone { box-shadow: inset 0 0 0 2px #2a2a32, 0 0 0 1px rgba(255,255,255,0.04); }
+.stage--embed .embed-themebar { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.14); backdrop-filter: blur(6px); }
+.stage--embed .embed-themebar button { padding: 8px 18px; font-size: 13px; color: rgba(255,255,255,.6); }
+.stage--embed .embed-themebar button.on { background: #fff; color: #18181b; }
+body:has(.stage--embed){ background:transparent; overflow:hidden; }
+html:has(.stage--embed){ overflow:hidden; background:transparent; }

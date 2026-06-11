@@ -8,6 +8,7 @@ import { Saved, Tickets, TicketPass, Checkin, Notifications } from './screens/at
 import { Curated, Profile, Friends, Settings } from './screens/profile'
 import { CreateEvent, Organizer, Messages, Chat, Wallet, Checkout, ARScan } from './screens/extra'
 import { Swipe } from './screens/swipe'
+import { SCREENS2, GALLERY_ORDER2 } from './v2/registry2'
 
 /* screen registry — id → component + gallery caption */
 const SCREENS = {
@@ -54,30 +55,57 @@ const GALLERY_ORDER = [
 ]
 const ONB_FLOW = ['splash', 'onb1', 'onb2', 'onb3', 'interests', 'location', 'auth', 'home']
 
-function ScreenHost({ id, params, nav, ctx }) {
-  const def = SCREENS[id]
+/* version registries — v1 (original) and v2 (operational-intelligence redesign) */
+const REG = {
+  v1: { screens: SCREENS, order: GALLERY_ORDER },
+  v2: { screens: SCREENS2, order: GALLERY_ORDER2 },
+}
+
+function ScreenHost({ id, params, nav, ctx, screens }) {
+  const def = screens[id]
   if (!def) return null
   const { C } = def
   return <C nav={nav} params={{ ...(def.p || {}), ...params }} ctx={ctx} />
 }
 
 export default function App() {
+  const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams()
+  const embed = params.has('embed')
   const [mode, setMode] = useState('gallery')
   const [theme, setTheme] = useState('dark')
+  const [version, setVersion] = useState(params.get('v') === '1' ? 'v1' : 'v2')
+  const reg = REG[version]
+  if (embed) {
+    return (
+      <div className={`stage stage--embed ${version === 'v2' ? 'v2' : ''}`}>
+        <div className="modebar embed-themebar">
+          <button className={version === 'v2' ? 'on' : ''} onClick={() => setVersion('v2')}>v2</button>
+          <button className={version === 'v1' ? 'on' : ''} onClick={() => setVersion('v1')}>v1</button>
+        </div>
+        <DeviceMode theme={theme} reg={reg} embed />
+      </div>
+    )
+  }
   return (
-    <div className="stage">
+    <div className={`stage ${version === 'v2' ? 'v2' : ''}`}>
       <header className="stage-head">
         <div>
           <div className="lockup">
             <img src="./brand/logo-white.png" alt="" />
             <div>
-              <span className="tagpill">✦ App concept · {GALLERY_ORDER.length} screens</span>
+              <span className="tagpill">✦ {version === 'v2' ? 'v2 · operational intelligence redesign' : 'App concept'} · {reg.order.length} screens</span>
             </div>
           </div>
-          <h1 style={{ marginTop: 18 }}>CITYLIFE<br /><span style={{ color: 'var(--blue-2)' }}>the city, scannable</span></h1>
-          <p className="sub">Discover, scan and attend events from the street to the dancefloor — a living database of what’s happening, unlocked by the posters you already walk past.</p>
+          <h1 style={{ marginTop: 18 }}>CITYLIFE<br /><span style={{ color: 'var(--blue-2)' }}>{version === 'v2' ? 'tonight, intelligently' : 'the city, scannable'}</span></h1>
+          <p className="sub">{version === 'v2'
+            ? 'A v2 reskin in an operational-intelligence language — indigo canvas, ink cards, live crowd data and an AI night lead. Same living event database, redrawn.'
+            : 'Discover, scan and attend events from the street to the dancefloor — a living database of what’s happening, unlocked by the posters you already walk past.'}</p>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-end' }}>
+          <div className="modebar">
+            <button className={version === 'v2' ? 'on' : ''} onClick={() => setVersion('v2')}>v2 · redesign</button>
+            <button className={version === 'v1' ? 'on' : ''} onClick={() => setVersion('v1')}>v1 · original</button>
+          </div>
           <div className="modebar">
             <button className={theme === 'light' ? 'on' : ''} onClick={() => setTheme('light')}>☀ Light</button>
             <button className={theme === 'dark' ? 'on' : ''} onClick={() => setTheme('dark')}>☾ Dark</button>
@@ -89,13 +117,13 @@ export default function App() {
         </div>
       </header>
 
-      {mode === 'gallery' ? <GalleryMode theme={theme} /> : <DeviceMode theme={theme} />}
+      {mode === 'gallery' ? <GalleryMode theme={theme} reg={reg} /> : <DeviceMode theme={theme} reg={reg} />}
     </div>
   )
 }
 
 /* ---------------- gallery: every screen, static ---------------- */
-function GalleryMode({ theme }) {
+function GalleryMode({ theme, reg }) {
   const ctx = {
     saved: new Set(['fomo', 'vinyl', 'gallery']),
     going: new Set(['soc-heal', 'dnb']),
@@ -104,15 +132,15 @@ function GalleryMode({ theme }) {
   const noop = () => {}
   return (
     <div className="gallery">
-      {GALLERY_ORDER.map((id, i) => (
+      {reg.order.map((id, i) => (
         <div className="gallery-item" key={id}>
           <Phone sm theme={theme}>
-            <ScreenHost id={id} params={{}} nav={noop} ctx={ctx} />
+            <ScreenHost id={id} params={{}} nav={noop} ctx={ctx} screens={reg.screens} />
           </Phone>
           <div className="cap">
             <div className="n">{String(i + 1).padStart(2, '0')}</div>
-            <div className="t">{SCREENS[id].t}</div>
-            <div className="d">{SCREENS[id].d}</div>
+            <div className="t">{reg.screens[id].t}</div>
+            <div className="d">{reg.screens[id].d}</div>
           </div>
         </div>
       ))}
@@ -121,7 +149,7 @@ function GalleryMode({ theme }) {
 }
 
 /* ---------------- device: interactive prototype ---------------- */
-function DeviceMode({ theme }) {
+function DeviceMode({ theme, reg, embed }) {
   const [stack, setStack] = useState([{ id: 'home', params: {} }])
   const [saved, setSaved] = useState(new Set(['fomo', 'vinyl']))
   const [going, setGoing] = useState(new Set(['soc-heal']))
@@ -137,10 +165,10 @@ function DeviceMode({ theme }) {
         return [...st, { id: nx, params: {} }]
       }
       if (target === 'done') return [{ id: 'home', params: {} }]
-      if (!SCREENS[target]) return st
+      if (!reg.screens[target]) return st
       return [...st, { id: target, params }]
     })
-  }, [])
+  }, [reg])
 
   const toggle = useCallback((id) => setSaved((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n }), [])
   const goTo = useCallback((id) => {
@@ -153,10 +181,12 @@ function DeviceMode({ theme }) {
 
   return (
     <div className="device-wrap">
-      <div style={{ display: 'flex', gap: 10 }}>
-        <button className="btn-ghost btn sm" style={{ width: 'auto' }} onClick={() => nav('back')}>← Back</button>
-        <button className="btn-ghost btn sm" style={{ width: 'auto' }} onClick={() => setStack([{ id: 'splash', params: {} }])}>↺ Restart onboarding</button>
-      </div>
+      {!embed && (
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button className="btn-ghost btn sm" style={{ width: 'auto' }} onClick={() => nav('back')}>← Back</button>
+          <button className="btn-ghost btn sm" style={{ width: 'auto' }} onClick={() => setStack([{ id: 'splash', params: {} }])}>↺ Restart onboarding</button>
+        </div>
+      )}
       <Phone theme={theme}>
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.div
@@ -167,11 +197,11 @@ function DeviceMode({ theme }) {
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}
           >
-            <ScreenHost id={cur.id} params={cur.params} nav={nav} ctx={ctx} />
+            <ScreenHost id={cur.id} params={cur.params} nav={nav} ctx={ctx} screens={reg.screens} />
           </motion.div>
         </AnimatePresence>
       </Phone>
-      <div className="device-hint">Tap around · scan a poster · grab a pass</div>
+      {!embed && <div className="device-hint">Tap around · scan a poster · grab a pass</div>}
     </div>
   )
 }

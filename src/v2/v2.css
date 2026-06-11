@@ -1,0 +1,279 @@
+/* ===========================================================
+   CITYLIFE v2 — "Operational Intelligence" redesign
+   indigo canvas · ink cards · color blocks · chunky grotesque
+   inspired by the M-CHEF / Daily Grind case study
+   Everything is scoped under .v2 so v1 stays untouched.
+   =========================================================== */
+
+.v2 {
+  --ind:    #5d5fef;   /* periwinkle indigo — the canvas + brand */
+  --ind-2:  #8183f7;
+  --ind-ink:#2b2ca6;
+  --coral:  #ff6a5c;   /* revenue / hot block */
+  --lav:    #9a8cf6;   /* capacity block */
+  --mint:   #cdd9cf;   /* map / timing block */
+  --acid:   #f4d44e;   /* alerts / help */
+  --sky:    #c4e6f2;   /* points block */
+  --paper:  #f4f3ee;
+}
+
+/* the presentation page goes full indigo in v2 */
+.stage.v2 {
+  background:
+    radial-gradient(130% 80% at 100% -10%, rgba(255,255,255,0.10), transparent 55%),
+    radial-gradient(90% 70% at -10% 110%, rgba(0,0,0,0.18), transparent 55%),
+    #5d5fef;
+}
+.stage.v2 .tagpill { color: #fff; border-color: rgba(255,255,255,.35); }
+.stage.v2 .stage-head h1 span { color: #fff !important; }
+.stage.v2 .gallery-item .cap .n { color: #fff; }
+.stage.v2 .gallery-item .cap .d { color: rgba(255,255,255,.7); }
+.stage.v2 .modebar { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.08); }
+.stage.v2 .modebar button { color: rgba(255,255,255,.7); }
+.stage.v2 .modebar button.on { background: #fff; color: var(--ind); }
+.stage.v2 .device-hint { color: rgba(255,255,255,.7); }
+
+/* phone screen tokens — v2 defaults to ink (near-black) */
+.v2 .screen.t-dark, .v2 .screen.t-light {
+  --ink:     #0e0e12;
+  --surface: #16161b;
+  --card:    #17171c;
+  --elev:    #212128;
+  --line:    rgba(255,255,255,0.085);
+  --line-2:  rgba(255,255,255,0.05);
+  --white:   #ffffff;
+  --dim:     #cfcfd7;
+  --muted:   #83838d;
+  --faint:   #54545d;
+  --bar:     rgba(10,10,14,0.92);
+  /* remap v1 brand vars so reused v1 classes turn indigo automatically */
+  --blue:    var(--ind);
+  --blue-2:  var(--ind-2);
+  --blue-ink:var(--ind-ink);
+  --r: 26px;
+}
+/* a softer "service-app" light theme (cream) for the toggle */
+.v2 .screen.t-light {
+  --ink:     #ecebe4;
+  --surface: #ffffff;
+  --card:    #ffffff;
+  --elev:    #e3e1d8;
+  --line:    rgba(20,20,15,0.12);
+  --line-2:  rgba(20,20,15,0.06);
+  --white:   #14140f;
+  --dim:     #33333a;
+  --muted:   #6b6b73;
+  --faint:   #a9a79e;
+  --bar:     rgba(236,235,228,0.85);
+}
+
+/* indigo screen background variant (used on the dashboard hero / capacity) */
+.v2 .screen-indigo { background: var(--ind); }
+
+/* ---------- type ---------- */
+.v2 .h-mega { font-family: var(--heavy); font-weight: 900; text-transform: uppercase; line-height: 0.9; letter-spacing: -0.015em; }
+.v2 .h-card { font-family: var(--heavy); font-weight: 900; text-transform: uppercase; line-height: 0.92; letter-spacing: -0.01em; font-size: 23px; }
+.v2 .lab { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+/* =================================================================
+   v2 COMPONENT KIT
+   ================================================================= */
+
+/* circular icon buttons (the ↗ corner buttons / + FAB) */
+.v2 .iconbtn { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto; transition: transform .15s; }
+.v2 .iconbtn:active { transform: scale(.9); }
+.v2 .iconbtn.light { background: #fff; color: #111; }
+.v2 .iconbtn.dark { background: var(--elev); color: #fff; border: 1px solid var(--line); }
+.v2 .iconbtn.coral { background: var(--coral); color: #1a0f0d; }
+.v2 .iconbtn.acid { background: var(--acid); color: #14140f; }
+.v2 .iconbtn.ind { background: var(--ind); color: #fff; }
+.v2 .iconbtn.ghost { background: rgba(255,255,255,.08); color: #fff; border: 1px solid var(--line); }
+
+/* dropdown / filter pills */
+.v2 .vpill { display: inline-flex; align-items: center; gap: 7px; padding: 8px 13px; border-radius: 999px; font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+.v2 .vpill.glass { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.16); }
+.v2 .vpill.solid { background: #fff; color: #16161b; }
+.v2 .vpill.ink { background: var(--elev); color: var(--dim); border: 1px solid var(--line); }
+.v2 .vpill .chev { opacity: .6; margin-left: 2px; }
+
+/* the base ink card */
+.v2 .vcard { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; }
+.v2 .vcard-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+
+/* color blocks */
+.v2 .block { border-radius: var(--r); padding: 18px; position: relative; overflow: hidden; }
+.v2 .block.coral { background: var(--coral); color: #1c0f0c; }
+.v2 .block.lav   { background: var(--lav);   color: #16122e; }
+.v2 .block.mint  { background: var(--mint);  color: #16201a; }
+.v2 .block.acid  { background: var(--acid);  color: #14140f; }
+.v2 .block.sky   { background: var(--sky);   color: #0c2630; }
+.v2 .block.ind   { background: var(--ind);   color: #fff; }
+
+/* revenue-style stat row inside a block */
+.v2 .statline { background: rgba(255,255,255,.5); border-radius: 16px; padding: 13px 15px; }
+.v2 .block.lav .statline, .v2 .block.ind .statline { background: rgba(255,255,255,.14); }
+.v2 .statline .k { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; opacity: .7; }
+.v2 .statline .v { font-family: var(--heavy); font-weight: 900; font-size: 26px; line-height: 1; margin-top: 4px; }
+.v2 .delta { font-family: var(--mono); font-size: 11px; font-weight: 700; padding: 3px 7px; border-radius: 7px; background: rgba(0,0,0,.14); }
+.v2 .delta.up { color: #0a7d3c; } .v2 .delta.down { color: #b1262b; }
+.v2 .block.lav .delta, .v2 .block.ind .delta { background: rgba(255,255,255,.18); color: #fff; }
+
+/* crowd / capacity circles */
+.v2 .capweek { display: flex; justify-content: space-between; gap: 6px; }
+.v2 .capday { text-align: center; flex: 1; }
+.v2 .capday .d { font-size: 10px; opacity: .65; margin-bottom: 7px; font-weight: 600; }
+.v2 .capcircle { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 800; border: 1.5px solid rgba(0,0,0,.18); }
+.v2 .capcircle.on { background: #14140f; color: #fff; border-color: #14140f; }
+.v2 .capcircle.future { opacity: .4; border-style: dashed; }
+
+/* legend dots */
+.v2 .legend { display: flex; gap: 14px; flex-wrap: wrap; }
+.v2 .legend span { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; }
+.v2 .legend i { width: 8px; height: 8px; border-radius: 50%; }
+
+/* bar chart */
+.v2 .bars { display: flex; align-items: flex-end; gap: 7px; height: 120px; }
+.v2 .bar { flex: 1; border-radius: 7px 7px 4px 4px; background: rgba(0,0,0,.16); position: relative; min-height: 8px; }
+.v2 .bar.on { background: #14140f; }
+.v2 .block.lav .bar, .v2 .block.ind .bar { background: rgba(255,255,255,.22); }
+.v2 .block.lav .bar.on, .v2 .block.ind .bar.on { background: #fff; }
+.v2 .bar .tip { position: absolute; top: -26px; left: 50%; transform: translateX(-50%); background: #14140f; color: #fff; font-size: 10.5px; font-weight: 800; padding: 4px 8px; border-radius: 8px; white-space: nowrap; font-family: var(--mono); }
+.v2 .barlabels { display: flex; gap: 7px; margin-top: 8px; }
+.v2 .barlabels span { flex: 1; text-align: center; font-size: 10px; opacity: .65; font-weight: 600; }
+.v2 .barlabels span.on { opacity: 1; font-weight: 800; }
+
+/* AI chat */
+.v2 .ai-bubble { background: var(--elev); border: 1px solid var(--line); border-radius: 16px; padding: 13px 15px; font-size: 13.5px; line-height: 1.5; color: var(--dim); }
+.v2 .ai-bubble b, .v2 .ai-bubble .hl { color: var(--acid); font-weight: 800; }
+.v2 .ai-bubble .ind { color: var(--ind-2); }
+.v2 .ai-chip { display: inline-flex; align-items: center; gap: 7px; padding: 9px 13px; border-radius: 12px; font-size: 12.5px; font-weight: 700; background: var(--elev); border: 1px solid var(--line); color: var(--white); }
+.v2 .ai-chip.go { background: var(--sky); color: #0c2630; border-color: var(--sky); }
+.v2 .ai-input { display: flex; align-items: center; gap: 10px; padding: 7px 7px 7px 16px; border-radius: 999px; background: var(--elev); border: 1px solid var(--line); }
+.v2 .ai-input input { flex: 1; background: none; border: none; outline: none; color: #fff; font: inherit; font-size: 13.5px; }
+.v2 .ai-input input::placeholder { color: var(--muted); }
+.v2 .wave { display: inline-flex; align-items: center; gap: 2px; height: 18px; }
+.v2 .wave i { width: 2px; border-radius: 2px; background: var(--muted); }
+
+/* event card v2 — poster on color bg, ink meta below */
+.v2 .vecard { border-radius: var(--r); overflow: hidden; background: var(--card); border: 1px solid var(--line); }
+.v2 .vecard .art { position: relative; aspect-ratio: 5/4; overflow: hidden; }
+.v2 .vecard .art img { width: 100%; height: 100%; object-fit: cover; }
+.v2 .vecard .art .tl { position: absolute; top: 12px; left: 12px; z-index: 3; display: flex; gap: 6px; }
+.v2 .vecard .art .tr { position: absolute; top: 10px; right: 10px; z-index: 3; }
+.v2 .vecard .meta { padding: 15px 16px 17px; }
+.v2 .vecard .meta h3 { font-family: var(--heavy); font-weight: 900; text-transform: uppercase; font-size: 19px; line-height: .96; letter-spacing: -.01em; }
+.v2 .vecard .meta .r { display: flex; align-items: center; gap: 12px; margin-top: 10px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.v2 .vecard .meta .r b { color: var(--ind-2); }
+
+/* art tile (categories / help / about — quirky poster as illustration) */
+.v2 .arttile { position: relative; border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; min-height: 150px; }
+.v2 .arttile .art { flex: 1; overflow: hidden; }
+.v2 .arttile .art img { width: 100%; height: 100%; object-fit: cover; }
+.v2 .arttile .label { position: absolute; left: 14px; bottom: 12px; right: 12px; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; z-index: 3; }
+.v2 .arttile .label h4 { font-family: var(--heavy); font-weight: 900; text-transform: uppercase; font-size: 19px; line-height: .92; }
+.v2 .arttile .toptag { position: absolute; top: 12px; left: 14px; z-index: 3; }
+
+/* tab bar v2 — dark floating pill */
+.v2 .vtabbar { position: relative; z-index: 50; flex: 0 0 auto; height: 86px; display: flex; align-items: center; justify-content: center; padding: 0 16px 14px; }
+.v2 .vtabbar .pillnav { display: flex; align-items: center; gap: 4px; background: rgba(20,20,26,.96); border: 1px solid var(--line); border-radius: 999px; padding: 7px; box-shadow: 0 16px 40px -14px rgba(0,0,0,.7); backdrop-filter: blur(14px); }
+.v2 .screen.t-light .vtabbar .pillnav { background: rgba(255,255,255,.96); }
+.v2 .vtab { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; color: var(--faint); }
+.v2 .vtab.on { background: var(--ind); color: #fff; }
+.v2 .vtab.scan { background: var(--coral); color: #1a0f0d; }
+
+/* small soft divider chip used as section eyebrow */
+.v2 .sec2 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; }
+.v2 .sec2 .t { font-family: var(--heavy); font-weight: 900; text-transform: uppercase; font-size: 20px; letter-spacing: -.01em; }
+
+/* mono ticker number (countdowns) */
+.v2 .ticknum { background: rgba(0,0,0,.18); border-radius: 6px; padding: 1px 6px; font-family: var(--mono); font-weight: 700; }
+.v2 .block.acid .ticknum { background: rgba(0,0,0,.14); }
+
+/* input fields v2 */
+.v2 .vinput { width: 100%; padding: 14px 15px; border-radius: 14px; border: 1px solid var(--line); background: var(--card); color: var(--white); font: inherit; outline: none; }
+.v2 .vinput:focus { border-color: var(--ind); }
+
+/* generic soft badge */
+.v2 .vbadge { display: inline-flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 5px 9px; border-radius: 8px; }
+.v2 .vbadge.coral { background: var(--coral); color: #1a0f0d; }
+.v2 .vbadge.acid { background: var(--acid); color: #14140f; }
+.v2 .vbadge.ind { background: var(--ind); color: #fff; }
+.v2 .vbadge.sky { background: var(--sky); color: #0c2630; }
+.v2 .vbadge.outline { border: 1px solid var(--line); color: var(--dim); }
+
+/* radial gauge wrap */
+.v2 .gauge-face { font-family: var(--mono); font-size: 10px; fill: var(--muted); }
+
+/* =================================================================
+   ANTIDESIGN LAYER — grain, halftone, stamps, tape, hand notes
+   (lifted from the CITYLIFE antidesign manual)
+   ================================================================= */
+
+/* paper grain on every color block — riso print feel */
+.v2 .block::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; z-index: 2;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='130' height='130'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+  mix-blend-mode: overlay; opacity: .5;
+}
+.v2 .block > * { position: relative; z-index: 3; }
+.v2 .grain-full { position: absolute; inset: 0; pointer-events: none; z-index: 8;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='130' height='130'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+  mix-blend-mode: overlay; opacity: .55; }
+
+/* halftone dot field (use color via `color:` on the element) */
+.v2 .half2 { position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background-image: radial-gradient(currentColor 1.1px, transparent 1.4px);
+  background-size: 7px 7px; opacity: .16; }
+
+/* rubber stamp — rotated mono frame */
+.v2 .stamp2 { display: inline-flex; align-items: center; gap: 5px; border: 2px solid currentColor; padding: 4px 9px;
+  font-family: var(--mono); font-weight: 700; font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+  border-radius: 3px; transform: rotate(-5deg); }
+
+/* washi tape strips (corner the artwork) */
+.v2 .tape2 { position: absolute; z-index: 8; width: 72px; height: 22px;
+  background: rgba(238, 233, 216, .45); box-shadow: inset 0 0 0 1px rgba(255,255,255,.22); }
+.v2 .tape2::after { content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(90deg, transparent 0 5px, rgba(255,255,255,.16) 5px 6px); }
+
+/* fake barcode (entry pass) */
+.v2 .barcode2 { height: 30px;
+  background: repeating-linear-gradient(90deg, #0b0b0b 0 2px, transparent 2px 5px, #0b0b0b 5px 8px, transparent 8px 12px, #0b0b0b 12px 13px, transparent 13px 16px); }
+
+/* handwriting accents */
+.v2 .hand { font-family: 'Caveat', cursive; font-weight: 700; text-transform: none; letter-spacing: 0; }
+
+/* offset-print shadow on big titles */
+.v2 .ovp2 { text-shadow: 3px 3px 0 var(--ind); }
+.v2 .ovp2.coral { text-shadow: 3px 3px 0 var(--coral); }
+
+/* sticker tilts (straighten on touch, like the lab) */
+.v2 .tilt { transform: rotate(var(--rot, -2deg)); transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+.v2 .tilt:active { transform: rotate(0) scale(1.01); }
+
+/* acid highlight (newsprint marker) */
+.v2 .hl-acid { background: var(--acid); color: #14140f; padding: 0 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+/* marquee restyle for v2 (✦ strip) */
+.v2 .mstrip { background: var(--acid); color: #14140f; }
+
+/* scanner reticle goes coral in v2 */
+.v2 .scan-corners span { border-color: var(--coral); }
+
+/* slow-spinning brand sparkle */
+@keyframes spin2 { to { transform: rotate(360deg); } }
+.v2 .spin-slow { animation: spin2 16s linear infinite; display: inline-block; }
+
+/* arttile gets the sticker treatment */
+.v2 .arttile { transform: rotate(var(--rot, 0deg)); transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+.v2 .arttile:active { transform: rotate(0) scale(1.02); }
+.v2 .arttile::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 4;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='130' height='130'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+  mix-blend-mode: overlay; opacity: .4; }
+
+/* crop marks for the onboarding "print sheet" */
+.v2 .crop2 > i { position: absolute; width: 13px; height: 13px; border: 1.5px solid rgba(255,255,255,.5); z-index: 9; pointer-events: none; }
+.v2 .crop2 > i:nth-child(1) { top: 7px; left: 7px; border-right: 0; border-bottom: 0; }
+.v2 .crop2 > i:nth-child(2) { top: 7px; right: 7px; border-left: 0; border-bottom: 0; }
+.v2 .crop2 > i:nth-child(3) { bottom: 7px; left: 7px; border-right: 0; border-top: 0; }
+.v2 .crop2 > i:nth-child(4) { bottom: 7px; right: 7px; border-left: 0; border-top: 0; }
