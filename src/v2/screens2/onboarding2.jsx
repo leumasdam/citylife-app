@@ -333,8 +333,8 @@ export function Auth({ nav }) {
         <motion.div className="stack" style={{ gap: 22, width: '100%', alignItems: 'center' }} initial="h" animate="s" variants={{ s: { transition: { staggerChildren: 0.1 } } }}>
           <motion.div variants={fadeUp} className="tilt" style={{ '--rot': '-3deg', width: 168, height: 168, borderRadius: 40, background: 'var(--ind)', display: 'grid', placeItems: 'center', boxShadow: '0 24px 60px -18px rgba(93,95,239,.7)', position: 'relative' }}>
             <img src="./brand/logo-white.png" style={{ width: 160 }} alt="CITYLIFE" />
-            <span className="tape2" style={{ top: -11, left: 14, transform: 'rotate(-22deg)' }} />
-            <span className="tape2" style={{ top: -11, right: 14, transform: 'rotate(22deg)' }} />
+            <span className="tape2" style={{ top: -8, left: -12, transform: 'rotate(-42deg)' }} />
+            <span className="tape2" style={{ bottom: 12, right: -13, transform: 'rotate(-14deg)' }} />
           </motion.div>
           <motion.div variants={fadeUp}>
             <div className="lab" style={{ marginBottom: 10, color: 'var(--coral)' }}>ALMOST THERE</div>

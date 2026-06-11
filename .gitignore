@@ -6,3 +6,5 @@ preview.log
 *.local
 *.cjs
 _*
+
+.vercel

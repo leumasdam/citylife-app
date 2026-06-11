@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { CATS, cover } from '../data/events'
 import { Pin, Clock, Heart, Arrow, Chevron, Flash, Mic } from './icons2'
 
@@ -217,6 +218,62 @@ export function ArtTile({ src, bg, label, tag, toptag, onClick, tall, rot = 0 })
         <span className="iconbtn light"><Arrow s={16} style={{ transform: 'rotate(-45deg)' }} /></span>
       </div>
     </button>
+  )
+}
+
+/* ---------- stacked category deck (folder-tab stack, active one expands) ---------- */
+const TONE_DARK = { acid: true, mint: true, sky: true } // these need ink text
+export function CategoryDeck({ tiers, nav }) {
+  const [active, setActive] = useState(tiers.length - 1)
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      {tiers.map((t, i) => {
+        const on = i === active
+        const dark = TONE_DARK[t.tone]
+        const ink = dark ? '#14140f' : '#fff'
+        return (
+          <motion.div key={t.cat} layout transition={{ type: 'spring', stiffness: 320, damping: 34 }}
+            onClick={() => (on ? nav('search', { cat: t.cat }) : setActive(i))}
+            style={{
+              background: `var(--${t.tone})`, color: ink, borderRadius: 22, overflow: 'hidden',
+              marginTop: i ? -16 : 0, zIndex: on ? 50 : i, position: 'relative', cursor: 'pointer',
+              boxShadow: '0 -8px 22px -12px rgba(0,0,0,.55)',
+            }}>
+            <motion.div layout="position" style={{ padding: on ? '17px 18px 0' : '15px 18px 21px', position: 'relative', zIndex: 3 }}>
+              <div className="row-between">
+                <span style={{ fontFamily: 'var(--heavy)', fontWeight: 900, textTransform: 'uppercase', fontSize: on ? 27 : 16, lineHeight: 0.92, letterSpacing: '-.01em' }}>{t.label}</span>
+                {on
+                  ? <span className="iconbtn" style={{ background: ink, color: `var(--${t.tone})` }}><Arrow s={17} style={{ transform: 'rotate(-45deg)' }} /></span>
+                  : <span style={{ width: 7, height: 7, borderRadius: 7, background: ink, opacity: .5 }} />}
+              </div>
+              <AnimatePresence>
+                {on && (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+                    <div style={{ display: 'flex', gap: 8, marginTop: 13 }}>
+                      {t.stats.map((s, k) => (
+                        <span key={s} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: dark ? 'rgba(0,0,0,.1)' : 'rgba(255,255,255,.16)', borderRadius: 999, padding: '6px 11px', fontSize: 12, fontWeight: 700 }}>
+                          <i style={{ width: 7, height: 7, borderRadius: 7, background: k ? 'var(--ind)' : 'var(--coral)' }} />{s}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+            <AnimatePresence>
+              {on && (
+                <motion.div layout initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ position: 'relative', height: 168, marginTop: 6 }}>
+                  <img src={`./posters/${t.poster}.jpg`} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to top, transparent, var(--${t.tone}) 96%)`, mixBlendMode: dark ? 'normal' : 'multiply', opacity: dark ? 0.18 : 0.35 }} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <div className="grain-full" style={{ opacity: .35 }} />
+          </motion.div>
+        )
+      })}
+    </div>
   )
 }
 

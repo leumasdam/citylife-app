@@ -5,7 +5,7 @@ import { EVENTS, CATS, byId, cover, img } from '../../data/events'
 import { MapBg } from '../../screens/onboarding'
 import {
   CatTag2, Pill, ArrowBtn, CardHead, CrowdChart, CapWeek, AlertCard,
-  EventCard2, EventRow2, ArtTile,
+  EventCard2, EventRow2, CategoryDeck,
 } from '../ui2'
 import { Marquee } from '../../ui'
 import { Search as SearchIc, Bell, Flash, Pin, Filter, Clock, Users, Star, Arrow, Mic, Heart, Check } from '../icons2'
@@ -148,21 +148,24 @@ export function Home({ nav, ctx }) {
   )
 }
 
-/* =========================== EXPLORE — categories as art tiles =========================== */
+/* =========================== EXPLORE — categories as a stacked deck =========================== */
+const TIERS = [
+  { cat: 'techno', label: 'Techno', poster: 'crisist', tone: 'coral' },
+  { cat: 'party', label: 'Party', poster: 'roller', tone: 'acid' },
+  { cat: 'art', label: 'Art', poster: 'amumu', tone: 'sky' },
+  { cat: 'live', label: 'Live', poster: 'gonzi', tone: 'lav' },
+]
 export function Explore({ nav }) {
-  const tiles = [
-    { cat: 'techno', poster: 'crisist', bg: '#44321a', toptag: 'High-energy' },
-    { cat: 'party', poster: 'roller', bg: '#7d7f1e' },
-    { cat: 'live', poster: 'gonzi', bg: '#420e23' },
-    { cat: 'talk', poster: 'stealfont', bg: '#0a0b12' },
-    { cat: 'art', poster: 'amumu', bg: '#a5a6a2' },
-    { cat: 'film', poster: 'ufo', bg: '#ece9df' },
-  ]
+  const tiers = TIERS.map((t) => {
+    const evs = EVENTS.filter((e) => e.cat === t.cat)
+    const free = evs.filter((e) => e.priceNum === 0).length
+    return { ...t, stats: [`${evs.length} events`, free ? `${free} free` : 'all ages'] }
+  })
   return (
     <>
       <StatusBar />
       <div className="body">
-        <div className="app-h"><div className="h-mega ovp2" style={{ fontSize: 34 }}>Explore</div>
+        <div className="app-h"><div className="h-mega ovp2" style={{ fontSize: 34 }}>Categories</div>
           <button className="iconbtn ghost" onClick={() => nav('map')}><Pin s={18} /></button>
         </div>
         <div className="pad" style={{ display: 'grid', gap: 16 }}>
@@ -171,14 +174,8 @@ export function Explore({ nav }) {
             <Filter s={18} />
           </button>
 
-          <div className="sec2"><span className="t">Categories</span><span className="hand" style={{ fontSize: 19, color: 'var(--muted)' }}>pick a poison</span></div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-            {tiles.map((t, i) => (
-              <ArtTile key={t.cat} src={`./posters/${t.poster}.jpg`} bg={t.bg} toptag={t.toptag}
-                rot={i % 2 ? 1.4 : -1.6}
-                label={CATS[t.cat].label} onClick={() => nav('search', { cat: t.cat })} />
-            ))}
-          </div>
+          <div className="sec2"><span className="t">Pick a scene</span><span className="hand" style={{ fontSize: 19, color: 'var(--muted)' }}>tap to open</span></div>
+          <CategoryDeck tiers={tiers} nav={nav} />
 
           <div className="sec2"><span className="t">Trending now</span></div>
           <div className="stack" style={{ gap: 2 }}>
