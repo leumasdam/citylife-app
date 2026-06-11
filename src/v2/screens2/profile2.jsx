@@ -3,35 +3,55 @@ import { EVENTS, posterImg } from '../../data/events'
 import { CountUp } from '../../ui'
 import { TabBar2 } from '../chrome2'
 import { EventRow2, ArtTile, ArrowBtn } from '../ui2'
+import { cover } from '../../data/events'
 import { Cog, Users, Star, Ticket, Arrow, Chevron, Bell, Pin, Wallet, Message, Plus, Flash } from '../icons2'
 
 export function Curated({ nav }) {
   const list = EVENTS.filter((e) => ['techno', 'party', 'live'].includes(e.cat)).slice(0, 5)
+  const fan = list.slice(0, 3)
   return (
     <>
-      <div className="body" style={{ position: 'relative' }}>
-        <div style={{ position: 'relative', height: 320, overflow: 'hidden', color: '#fff' }}>
-          <img src={posterImg('society')} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(93,95,239,.35), rgba(43,44,166,.55) 55%, var(--ink))' }} />
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}><StatusBar /></div>
-          <div className="row-between" style={{ position: 'absolute', top: 50, left: 18, right: 18 }}>
-            <button className="iconbtn ghost" onClick={() => nav('back')}><Arrow s={18} style={{ transform: 'rotate(180deg)' }} /></button>
-          </div>
-          <div className="center" style={{ position: 'absolute', inset: 0, flexDirection: 'column', textAlign: 'center', padding: 20 }}>
-            <div className="vbadge acid" style={{ marginBottom: 12 }}>EDITOR'S COLLECTION</div>
-            <h1 className="h-mega" style={{ fontSize: 48 }}>Society<br />Is Healing</h1>
-            <p style={{ fontSize: 13.5, marginTop: 14, maxWidth: 280, color: 'rgba(255,255,255,.9)' }}>The nights putting the city back together. <i style={{ color: 'var(--acid)' }}>We know where.</i></p>
+      <StatusBar light />
+      <div className="body screen-indigo" style={{ color: '#fff' }}>
+        <div className="row-between" style={{ padding: '4px 18px 4px' }}>
+          <button className="iconbtn ghost" onClick={() => nav('back')}><Arrow s={18} style={{ transform: 'rotate(180deg)' }} /></button>
+          <div className="vbadge acid">EDITOR'S COLLECTION</div>
+          <span style={{ width: 38 }} />
+        </div>
+
+        {/* editorial hero — clean type, the posters fan below (no text-on-poster clash) */}
+        <div className="pad" style={{ paddingTop: 20, textAlign: 'center' }}>
+          <h1 className="h-mega" style={{ fontSize: 50 }}>Society<br />Is Healing</h1>
+          <p style={{ fontSize: 14, marginTop: 14, color: 'rgba(255,255,255,.82)', maxWidth: 290, margin: '14px auto 0' }}>The nights putting the city back together.</p>
+          <p className="hand" style={{ fontSize: 26, color: 'var(--acid)', marginTop: 6, transform: 'rotate(-2deg)' }}>we know where ✦</p>
+
+          {/* fanned poster stickers — the actual picks */}
+          <div className="center" style={{ height: 188, marginTop: 24, position: 'relative' }}>
+            {fan.map((e, i) => {
+              const rot = [-11, 0, 11][i]
+              const x = [-92, 0, 92][i]
+              return (
+                <button key={e.id} onClick={() => nav('detail', { id: e.id })}
+                  style={{ position: 'absolute', width: 124, aspectRatio: '4/5', borderRadius: 12, overflow: 'hidden', background: cover(e).bg, transform: `translateX(${x}px) rotate(${rot}deg)`, zIndex: i === 1 ? 3 : 2, boxShadow: '0 18px 40px -16px rgba(0,0,0,.7)', border: '3px solid #fff' }}>
+                  <img src={cover(e).src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </button>
+              )
+            })}
           </div>
         </div>
-        <div className="pad" style={{ marginTop: 18, paddingBottom: 40 }}>
-          <div className="row-between" style={{ marginBottom: 16 }}>
-            <div className="lab" style={{ color: 'var(--ind-2)' }}>{list.length} HAND-PICKED</div>
-            <span style={{ fontSize: 12, color: 'var(--muted)' }}>Updated weekly</span>
+
+        {/* list sits on the ink sheet */}
+        <div style={{ background: 'var(--ink)', color: 'var(--white)', borderRadius: '26px 26px 0 0', marginTop: 26, paddingTop: 22, minHeight: 240 }}>
+          <div className="pad" style={{ paddingBottom: 40 }}>
+            <div className="row-between" style={{ marginBottom: 14 }}>
+              <div className="lab" style={{ color: 'var(--ind-2)' }}>{list.length} HAND-PICKED</div>
+              <span style={{ fontSize: 12, color: 'var(--muted)' }}>Updated weekly</span>
+            </div>
+            <div className="stack" style={{ gap: 2 }}>{list.map((e) => <EventRow2 key={e.id} ev={e} nav={nav} />)}</div>
           </div>
-          <div className="stack" style={{ gap: 2 }}>{list.map((e) => <EventRow2 key={e.id} ev={e} nav={nav} />)}</div>
         </div>
       </div>
-      <HomeBar />
+      <HomeBar dark />
     </>
   )
 }
