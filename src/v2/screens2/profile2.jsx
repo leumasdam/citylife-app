@@ -150,7 +150,7 @@ export function Friends({ nav }) {
               <button key={i} className="erow" onClick={() => nav('detail', { id: EVENTS[i % EVENTS.length].id })} style={{ width: '100%', textAlign: 'left' }}>
                 <div style={{ width: 50, height: 50, borderRadius: '50%', background: c, color: c === 'var(--acid)' || c === 'var(--sky)' ? '#14140f' : '#fff', display: 'grid', placeItems: 'center', fontWeight: 800, flex: '0 0 auto' }}>{ltr}</div>
                 <div style={{ flex: 1, minWidth: 0 }}><h4>{name}</h4><div className="sub" style={{ color: 'var(--ind-2)' }}>{act}</div></div>
-                <Chevron s={18} />
+                <Chevron s={18} style={{ color: 'var(--muted)' }} />
               </button>
             ))}
           </div>
@@ -183,7 +183,7 @@ export function Settings({ nav }) {
                 {rows.map(([label, icon], i) => (
                   <div key={label} className="row-between" style={{ padding: '15px 16px', borderTop: i ? '1px solid var(--line)' : 'none' }}>
                     <span style={{ display: 'flex', gap: 12, alignItems: 'center', fontWeight: 600, fontSize: 15 }}><span style={{ color: 'var(--ind-2)' }}>{icon}</span>{label}</span>
-                    <Chevron s={18} />
+                    <Chevron s={18} style={{ color: 'var(--muted)' }} />
                   </div>
                 ))}
               </div>

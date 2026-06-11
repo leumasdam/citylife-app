@@ -4,7 +4,7 @@ import { StatusBar, HomeBar } from '../../phone/Phone'
 import { CATS } from '../../data/events'
 import { MapBg } from '../../screens/onboarding'
 import { QR } from '../../ui'
-import { Arrow, Pin, Check, Heart, Flash } from '../icons2'
+import { Arrow, Pin, Check, Heart, Flash, X } from '../icons2'
 
 const fadeUp = { h: { opacity: 0, y: 18 }, s: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }
 const EASE = [0.22, 1, 0.36, 1]
@@ -200,7 +200,7 @@ function SceneDecide() {
       </motion.div>
       {/* action hints */}
       <div style={{ position: 'absolute', left: 0, right: 0, bottom: '6%', display: 'flex', justifyContent: 'center', gap: 12 }}>
-        <span className="center" style={{ width: 34, height: 34, borderRadius: '50%', background: 'var(--elev)', border: '1px solid var(--line)', color: 'var(--muted)' }}>✕</span>
+        <span className="center" style={{ width: 34, height: 34, borderRadius: '50%', background: 'var(--elev)', border: '1px solid var(--line)', color: 'var(--muted)' }}><X s={15} /></span>
         <motion.span className="center" style={{ width: 34, height: 34, borderRadius: '50%', background: 'var(--ind)', color: '#fff' }}
           animate={{ scale: [1, 1, 1.18, 1] }} transition={{ ...SWIPE, times: [0, 0.55, 0.66, 0.8] }}><Flash s={16} /></motion.span>
         <span className="center" style={{ width: 34, height: 34, borderRadius: '50%', background: 'var(--elev)', border: '1px solid var(--line)', color: 'var(--coral)' }}><Heart s={15} /></span>
@@ -264,7 +264,7 @@ export function Interests({ nav }) {
   return (
     <>
       <StatusBar />
-      <div className="body pad" style={{ paddingTop: 12 }}>
+      <div className="body pad" style={{ paddingTop: 12, paddingBottom: 110 }}>
         <div className="lab" style={{ marginBottom: 10, color: 'var(--ind-2)' }}>SET UP · 1 OF 2</div>
         <h1 className="h-mega" style={{ fontSize: 36 }}>What are<br />you into?</h1>
         <p style={{ color: 'var(--muted)', marginTop: 12, fontSize: 14 }}>Pick a few. We'll tune your signal — change it anytime.</p>

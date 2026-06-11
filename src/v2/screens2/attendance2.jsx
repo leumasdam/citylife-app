@@ -184,7 +184,7 @@ export function Notifications({ nav }) {
           <div className="lab" style={{ marginBottom: 14, color: 'var(--coral)' }}>FOMO ALERTS · TUNED TO YOU</div>
           <div className="stack" style={{ gap: 12 }}>
             {NOTES.map((n, i) => (
-              <AlertCard key={i} tone={n.tone} icon={n.ic} title={n.t} body={n.d} onClick={() => nav('detail', { id: 'dnb' })} />
+              <AlertCard key={i} tone={n.tone} icon={n.ic} title={n.t} body={n.d} when={n.when} onClick={() => nav('detail', { id: 'dnb' })} />
             ))}
           </div>
         </div>

@@ -289,3 +289,8 @@
 .v2 .crop2 > i:nth-child(2) { top: 7px; right: 7px; border-left: 0; border-bottom: 0; }
 .v2 .crop2 > i:nth-child(3) { bottom: 7px; left: 7px; border-right: 0; border-top: 0; }
 .v2 .crop2 > i:nth-child(4) { bottom: 7px; right: 7px; border-left: 0; border-top: 0; }
+
+/* light-theme fixes — hardcoded whites flip to ink on cream */
+.v2 .screen.t-light .iconbtn.ghost { background: rgba(0,0,0,.06); color: #14140f; }
+.v2 .screen.t-light .ai-input input { color: var(--white); }
+.v2 .screen.t-light .vpill.glass { background: rgba(0,0,0,.07); color: #14140f; border-color: var(--line); }

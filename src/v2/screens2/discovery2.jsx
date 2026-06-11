@@ -245,7 +245,7 @@ export function Search({ nav, params }) {
         <div style={{ display: 'flex', gap: 10, padding: '6px 18px 14px', alignItems: 'center' }}>
           <div className="row-between" style={{ flex: 1, padding: '12px 15px', borderRadius: 999, border: '1px solid var(--ind)', background: 'var(--card)' }}>
             <span style={{ display: 'flex', gap: 10, alignItems: 'center', flex: 1 }}><SearchIc s={18} />
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" style={{ background: 'none', border: 'none', color: '#fff', outline: 'none', font: 'inherit', width: '100%' }} />
+              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" style={{ background: 'none', border: 'none', color: 'var(--white)', outline: 'none', font: 'inherit', width: '100%' }} />
             </span>
             <Mic s={17} style={{ color: 'var(--muted)' }} />
           </div>
@@ -325,7 +325,7 @@ export function Detail({ nav, params, ctx }) {
               right={<span style={{ fontFamily: 'var(--heavy)', fontWeight: 900, fontSize: 26 }}>{ev.time.split(' – ')[0]}</span>} />
             <div className="capweek" style={{ marginBottom: 8 }}>
               {['18', '20', '22', '00', '02', '04'].map((t, i) => {
-                const vals = [12, 34, 78, 100, 64, 22]
+                const vals = [12, 34, 78, 96, 64, 22]
                 return <div className="capday" key={t}><div className="d">{t}h</div><div className={`capcircle ${i === 3 ? 'on' : ''}`}>{vals[i]}%</div></div>
               })}
             </div>

@@ -154,8 +154,8 @@ export function RadialClock({ pct = 0.62, label = '23:30', accent = '#ff6a5c' })
 }
 
 /* ---------- alert card — ink card + tone-colored icon circle (reference style) ---------- */
-const TONE_INK = { acid: '#14140f', sky: '#0c2630', mint: '#16201a' }
-export function AlertCard({ tone = 'acid', icon, title, body, tick, onClick }) {
+const TONE_INK = { acid: '#14140f', sky: '#0c2630', mint: '#16201a', lav: '#16122e' }
+export function AlertCard({ tone = 'acid', icon, title, body, tick, when, onClick }) {
   return (
     <button className="vcard" onClick={onClick} style={{ display: 'flex', gap: 13, textAlign: 'left', width: '100%', alignItems: 'center', padding: 15 }}>
       <span className="center" style={{ width: 42, height: 42, borderRadius: '50%', background: `var(--${tone})`, color: TONE_INK[tone] || '#fff', flex: '0 0 auto' }}>{icon}</span>
@@ -165,7 +165,9 @@ export function AlertCard({ tone = 'acid', icon, title, body, tick, onClick }) {
           {body}{tick && <> · starts in <b className="mono" style={{ color: 'var(--acid)' }}>{tick}</b></>}
         </span>
       </span>
-      <Chevron s={18} style={{ color: 'var(--faint)', flex: '0 0 auto' }} />
+      {when
+        ? <span className="mono" style={{ fontSize: 10.5, color: 'var(--faint)', flex: '0 0 auto', alignSelf: 'flex-start', marginTop: 2 }}>{when}</span>
+        : <Chevron s={18} style={{ color: 'var(--faint)', flex: '0 0 auto' }} />}
     </button>
   )
 }
@@ -215,7 +217,7 @@ export function ArtTile({ src, bg, label, tag, toptag, onClick, tall, rot = 0 })
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,.55), transparent 55%)' }} />
       {toptag && <span className="vbadge coral toptag" style={{ transform: 'rotate(-4deg)' }}>{toptag}</span>}
       <div className="label">
-        <h4 style={{ color: '#fff' }}>{label}{tag && <div className="hand" style={{ fontSize: 17, fontWeight: 700, opacity: .9, marginTop: 3 }}>{tag}</div>}</h4>
+        <h4 style={{ color: '#fff' }}>{label}{tag && <div style={{ fontSize: 11, fontWeight: 600, opacity: .85, marginTop: 4, fontFamily: 'var(--body)', textTransform: 'none', letterSpacing: 0 }}>{tag}</div>}</h4>
         <span className="iconbtn light"><Arrow s={16} style={{ transform: 'rotate(-45deg)' }} /></span>
       </div>
     </button>
@@ -223,7 +225,7 @@ export function ArtTile({ src, bg, label, tag, toptag, onClick, tall, rot = 0 })
 }
 
 /* ---------- stacked category deck (folder-tab stack, active one expands) ---------- */
-const TONE_DARK = { acid: true, mint: true, sky: true } // these need ink text
+const TONE_DARK = { acid: true, mint: true, sky: true, lav: true } // these need ink text (matches .block.* colors)
 export function CategoryDeck({ tiers, nav }) {
   const [active, setActive] = useState(tiers.length - 1)
   return (
@@ -253,7 +255,7 @@ export function CategoryDeck({ tiers, nav }) {
                     <div style={{ display: 'flex', gap: 8, marginTop: 13 }}>
                       {t.stats.map((s, k) => (
                         <span key={s} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: dark ? 'rgba(0,0,0,.1)' : 'rgba(255,255,255,.16)', borderRadius: 999, padding: '6px 11px', fontSize: 12, fontWeight: 700 }}>
-                          <i style={{ width: 7, height: 7, borderRadius: 7, background: k ? 'var(--ind)' : 'var(--coral)' }} />{s}
+                          <i style={{ width: 7, height: 7, borderRadius: 7, background: k ? (dark ? 'rgba(0,0,0,.45)' : 'rgba(255,255,255,.6)') : (dark ? '#14140f' : '#fff') }} />{s}
                         </span>
                       ))}
                     </div>

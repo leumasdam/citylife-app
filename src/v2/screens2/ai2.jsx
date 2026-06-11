@@ -52,7 +52,7 @@ export function AIPlanner({ nav }) {
                             </div>
                           ))}
                         </div>
-                        <button className="btn" style={{ background: 'var(--ind)', color: '#fff', marginTop: 12 }} onClick={() => nav('swipe')}><Flash s={17} /> Lock this route</button>
+                        <button className="btn" style={{ background: 'var(--ind)', color: '#fff', marginTop: 12 }} onClick={() => nav('saved')}><Flash s={17} /> Lock this route</button>
                       </div>
                     )}
                   </div>
