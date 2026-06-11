@@ -33,6 +33,15 @@
 .stage.v2 .modebar button.on { background: #fff; color: var(--ind); }
 .stage.v2 .device-hint { color: rgba(255,255,255,.7); }
 
+/* header typography — give it air, the v1 version felt cramped */
+.stage.v2 .stage-head { margin-bottom: 60px; }
+.stage.v2 .stage-head .lockup { gap: 14px; margin-bottom: 26px; }
+.stage.v2 .stage-head .lockup img { width: 52px; }
+.stage.v2 .stage-head .tagpill { color: #fff; font-size: 11px; letter-spacing: .16em; padding: 9px 16px; }
+.stage.v2 .stage-head h1 { font-size: clamp(40px, 6.2vw, 82px); line-height: 0.92; letter-spacing: -.01em; }
+.stage.v2 .stage-head h1 .tag-line { display: block; margin-top: 12px; font-family: var(--mono); font-weight: 500; text-transform: none; font-size: clamp(14px, 1.5vw, 19px); letter-spacing: .04em; color: rgba(255,255,255,.62); }
+.stage.v2 .stage-head .sub { color: rgba(255,255,255,.8); max-width: 480px; margin-top: 20px; font-size: clamp(14px, 1.3vw, 17px); line-height: 1.6; }
+
 /* phone screen tokens — v2 defaults to ink (near-black) */
 .v2 .screen.t-dark, .v2 .screen.t-light {
   --ink:     #0e0e12;

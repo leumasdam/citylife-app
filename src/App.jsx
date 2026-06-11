@@ -73,42 +73,30 @@ export default function App() {
   const embed = params.has('embed')
   const [mode, setMode] = useState('gallery')
   const [theme, setTheme] = useState('dark')
-  const [version, setVersion] = useState(params.get('v') === '1' ? 'v1' : 'v2')
-  const reg = REG[version]
+  // v1 stays reachable only via ?v=1 (hidden — no UI toggle)
+  const reg = REG[params.get('v') === '1' ? 'v1' : 'v2']
   if (embed) {
     return (
-      <div className={`stage stage--embed ${version === 'v2' ? 'v2' : ''}`}>
-        <div className="modebar embed-themebar">
-          <button className={version === 'v2' ? 'on' : ''} onClick={() => setVersion('v2')}>v2</button>
-          <button className={version === 'v1' ? 'on' : ''} onClick={() => setVersion('v1')}>v1</button>
-        </div>
+      <div className="stage stage--embed v2">
         <DeviceMode theme={theme} reg={reg} embed />
       </div>
     )
   }
   return (
-    <div className={`stage ${version === 'v2' ? 'v2' : ''}`}>
+    <div className="stage v2">
       <header className="stage-head">
         <div>
           <div className="lockup">
-            <img src="./brand/logo-white.png" alt="" />
-            <div>
-              <span className="tagpill">✦ {version === 'v2' ? 'v2 · operational intelligence redesign' : 'App concept'} · {reg.order.length} screens</span>
-            </div>
+            <img src="./brand/logo-white.png" alt="CITYLIFE" />
+            <span className="tagpill">✦ Event app · {reg.order.length} screens</span>
           </div>
-          <h1 style={{ marginTop: 18 }}>CITYLIFE<br /><span style={{ color: 'var(--blue-2)' }}>{version === 'v2' ? 'tonight, intelligently' : 'the city, scannable'}</span></h1>
-          <p className="sub">{version === 'v2'
-            ? 'A v2 reskin in an operational-intelligence language — indigo canvas, ink cards, live crowd data and an AI night lead. Same living event database, redrawn.'
-            : 'Discover, scan and attend events from the street to the dancefloor — a living database of what’s happening, unlocked by the posters you already walk past.'}</p>
+          <h1 style={{ marginTop: 22 }}>CITYLIFE<span className="tag-line">the city, scannable</span></h1>
+          <p className="sub">Discover, scan and attend events from the street to the dancefloor — a living map of what’s on tonight, with an AI night lead that plans the rest.</p>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-end' }}>
           <div className="modebar">
-            <button className={version === 'v2' ? 'on' : ''} onClick={() => setVersion('v2')}>v2 · redesign</button>
-            <button className={version === 'v1' ? 'on' : ''} onClick={() => setVersion('v1')}>v1 · original</button>
-          </div>
-          <div className="modebar">
-            <button className={theme === 'light' ? 'on' : ''} onClick={() => setTheme('light')}>☀ Light</button>
             <button className={theme === 'dark' ? 'on' : ''} onClick={() => setTheme('dark')}>☾ Dark</button>
+            <button className={theme === 'light' ? 'on' : ''} onClick={() => setTheme('light')}>☀ Light</button>
           </div>
           <div className="modebar">
             <button className={mode === 'gallery' ? 'on' : ''} onClick={() => setMode('gallery')}>All screens</button>
