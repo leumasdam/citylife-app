@@ -197,9 +197,9 @@ export function Settings({ nav }) {
             <ArtTile src={posterImg('whatislife')} bg="#ece9df" label="Help" tag="Got questions?" />
           </div>
 
-          <div className="vcard" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <img src="./brand/logo-white.png" style={{ width: 70 }} alt="" />
-            <div style={{ fontSize: 12, color: 'var(--muted)' }}>CITYLIFE v2.0 · concept<br />the city, scannable.</div>
+          <div className="vcard" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <span style={{ width: 56, height: 56, borderRadius: 15, background: 'var(--ind)', display: 'grid', placeItems: 'center', flex: '0 0 auto' }}><img src="./brand/logo-white.png" style={{ width: 52 }} alt="" /></span>
+            <div style={{ fontSize: 12, color: 'var(--muted)' }}>CITYLIFE · concept<br />the city, scannable.</div>
           </div>
           <div style={{ height: 16 }} />
         </div>

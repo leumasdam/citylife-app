@@ -65,8 +65,8 @@ export function Organizer({ nav }) {
           </div>
         </div>
         <div className="pad" style={{ marginTop: -44, position: 'relative' }}>
-          <div style={{ width: 84, height: 84, borderRadius: 22, background: 'var(--ind)', display: 'grid', placeItems: 'center', border: '3px solid var(--ink)' }}>
-            <img src="./brand/logo-white.png" style={{ width: 74 }} alt="" />
+          <div style={{ width: 88, height: 88, borderRadius: 22, background: 'var(--ind)', display: 'grid', placeItems: 'center', border: '3px solid var(--ink)' }}>
+            <img src="./brand/logo-white.png" style={{ width: 84 }} alt="" />
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 14 }}>
             <h1 className="h-card" style={{ fontSize: 25 }}>Nová Cvernovka</h1>
@@ -188,7 +188,7 @@ export function Wallet({ nav }) {
         <div className="pad" style={{ paddingBottom: 20 }}>
           {/* credits card — coral revenue block */}
           <div className="block coral" style={{ marginBottom: 22 }}>
-            <div style={{ position: 'absolute', right: -20, top: -20, opacity: .18 }}><img src="./brand/logo-black.png" style={{ width: 120 }} alt="" /></div>
+            <div style={{ position: 'absolute', right: -24, top: -16, opacity: .16 }}><img src="./brand/logo-black.png" style={{ width: 160 }} alt="" /></div>
             <div className="lab" style={{ color: 'rgba(0,0,0,.55)' }}>CITYLIFE CREDITS</div>
             <div className="h-mega" style={{ fontSize: 44, marginTop: 8 }}>34.00€</div>
             <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
