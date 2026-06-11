@@ -153,18 +153,19 @@ export function RadialClock({ pct = 0.62, label = '23:30', accent = '#ff6a5c' })
   )
 }
 
-/* ---------- alert card (selling-fast / signal) ---------- */
+/* ---------- alert card — ink card + tone-colored icon circle (reference style) ---------- */
+const TONE_INK = { acid: '#14140f', sky: '#0c2630', mint: '#16201a' }
 export function AlertCard({ tone = 'acid', icon, title, body, tick, onClick }) {
   return (
-    <button className={`block ${tone}`} onClick={onClick} style={{ display: 'flex', gap: 13, textAlign: 'left', width: '100%', alignItems: 'flex-start' }}>
-      <div style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(0,0,0,.14)', display: 'grid', placeItems: 'center', flex: '0 0 auto' }}>{icon}</div>
-      <div style={{ flex: 1 }}>
-        <div style={{ fontFamily: 'var(--heavy)', fontWeight: 900, textTransform: 'uppercase', fontSize: 15, lineHeight: 1, letterSpacing: '-.01em' }}>{title}</div>
-        <div style={{ fontSize: 12.5, marginTop: 6, opacity: .8, lineHeight: 1.4 }}>
-          {body} {tick && <>· starts in <span className="ticknum">{tick}</span></>}
-        </div>
-      </div>
-      <ArrowBtn tone="dark" />
+    <button className="vcard" onClick={onClick} style={{ display: 'flex', gap: 13, textAlign: 'left', width: '100%', alignItems: 'center', padding: 15 }}>
+      <span className="center" style={{ width: 42, height: 42, borderRadius: '50%', background: `var(--${tone})`, color: TONE_INK[tone] || '#fff', flex: '0 0 auto' }}>{icon}</span>
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <span style={{ display: 'block', fontFamily: 'var(--heavy)', fontWeight: 900, textTransform: 'uppercase', fontSize: 14.5, lineHeight: 1, letterSpacing: '-.01em' }}>{title}</span>
+        <span style={{ display: 'block', fontSize: 12.5, marginTop: 5, color: 'var(--muted)', lineHeight: 1.45 }}>
+          {body}{tick && <> · starts in <b className="mono" style={{ color: 'var(--acid)' }}>{tick}</b></>}
+        </span>
+      </span>
+      <Chevron s={18} style={{ color: 'var(--faint)', flex: '0 0 auto' }} />
     </button>
   )
 }
@@ -184,7 +185,7 @@ export function EventCard2({ ev, nav, saved, onSave }) {
       </div>
       <div className="meta">
         <h3>{ev.title}</h3>
-        <div className="r"><span><Pin s={12} /> {ev.venue}</span><span><Clock s={12} /> {ev.time.split(' – ')[0]}</span><b className="hl-acid mono" style={{ fontSize: 11.5 }}>{ev.price}</b></div>
+        <div className="r"><span><Pin s={12} /> {ev.venue}</span><span><Clock s={12} /> {ev.time.split(' – ')[0]}</span><b>{ev.price}</b></div>
       </div>
     </motion.div>
   )
@@ -269,7 +270,7 @@ export function CategoryDeck({ tiers, nav }) {
                 </motion.div>
               )}
             </AnimatePresence>
-            <div className="grain-full" style={{ opacity: .35 }} />
+            <div className="grain-full" style={{ opacity: .18 }} />
           </motion.div>
         )
       })}

@@ -63,7 +63,7 @@ export function Profile({ nav, ctx }) {
     <>
       <StatusBar />
       <div className="body">
-        <div className="app-h"><div className="h-mega ovp2" style={{ fontSize: 34 }}>You</div>
+        <div className="app-h"><div className="h-mega" style={{ fontSize: 34 }}>You</div>
           <button className="iconbtn ghost" onClick={() => nav('settings')}><Cog s={18} /></button>
         </div>
         <div className="pad" style={{ display: 'grid', gap: 16 }}>
@@ -78,9 +78,9 @@ export function Profile({ nav, ctx }) {
 
           {/* stat number cards (revenue-style) */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
-            {[[24, 'Been', 'var(--ind-2)'], [6, 'Upcoming', 'var(--acid)'], [38, 'Saved', 'var(--coral)']].map(([n, l, c]) => (
+            {[[24, 'Been'], [6, 'Upcoming'], [38, 'Saved']].map(([n, l]) => (
               <div key={l} className="vcard" style={{ padding: 14, textAlign: 'center' }}>
-                <div className="h-mega" style={{ fontSize: 30, color: c }}><CountUp to={n} /></div>
+                <div className="h-mega" style={{ fontSize: 30 }}><CountUp to={n} /></div>
                 <div style={{ fontSize: 11.5, color: 'var(--muted)', marginTop: 2 }}>{l}</div>
               </div>
             ))}

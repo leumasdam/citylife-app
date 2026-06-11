@@ -266,7 +266,7 @@ export function Interests({ nav }) {
       <StatusBar />
       <div className="body pad" style={{ paddingTop: 12 }}>
         <div className="lab" style={{ marginBottom: 10, color: 'var(--ind-2)' }}>SET UP · 1 OF 2</div>
-        <h1 className="h-mega ovp2" style={{ fontSize: 36 }}>What are<br />you into?</h1>
+        <h1 className="h-mega" style={{ fontSize: 36 }}>What are<br />you into?</h1>
         <p style={{ color: 'var(--muted)', marginTop: 12, fontSize: 14 }}>Pick a few. We'll tune your signal — change it anytime.</p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 24 }}>
           {POOL.concat(EXTRA.map((label) => ({ id: label, label }))).map((c) => (
@@ -275,7 +275,6 @@ export function Interests({ nav }) {
             </button>
           ))}
         </div>
-        <div className="hand" style={{ fontSize: 22, color: 'var(--muted)', marginTop: 18, transform: 'rotate(-2deg)' }}>pick at least 3, trust us ↑</div>
       </div>
       <div className="dock">
         <button className="btn" style={{ background: 'var(--ind)', color: '#fff' }} onClick={() => nav('next')}>Continue · {sel.length} picked <Arrow s={18} /></button>
@@ -307,7 +306,6 @@ export function Location({ nav }) {
                 </motion.div>
               </div>
             </div>
-            <span className="hand" style={{ position: 'absolute', right: 18, bottom: 14, zIndex: 9, fontSize: 24, color: '#16201a', transform: 'rotate(-4deg)' }}>you are (probably) here</span>
           </div>
         </div>
         <div className="pad" style={{ marginTop: 16 }}>
@@ -338,8 +336,8 @@ export function Auth({ nav }) {
           </motion.div>
           <motion.div variants={fadeUp}>
             <div className="lab" style={{ marginBottom: 10, color: 'var(--coral)' }}>ALMOST THERE</div>
-            <h1 className="h-mega ovp2" style={{ fontSize: 44 }}>Join the<br />city</h1>
-            <p style={{ color: 'var(--muted)', marginTop: 12, fontSize: 14.5, maxWidth: 260 }}>One tap and the whole city opens up. <span className="hand" style={{ fontSize: 19, color: 'var(--acid)' }}>no spam, just signal.</span></p>
+            <h1 className="h-mega" style={{ fontSize: 44 }}>Join the<br />city</h1>
+            <p style={{ color: 'var(--muted)', marginTop: 12, fontSize: 14.5, maxWidth: 260 }}>One tap and the whole city opens up. No spam, just signal.</p>
           </motion.div>
         </motion.div>
       </div>

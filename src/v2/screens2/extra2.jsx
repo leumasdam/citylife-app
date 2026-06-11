@@ -108,7 +108,7 @@ export function Messages({ nav }) {
     <>
       <StatusBar />
       <div className="body">
-        <div className="app-h"><div className="h-mega ovp2" style={{ fontSize: 34 }}>Messages</div>
+        <div className="app-h"><div className="h-mega" style={{ fontSize: 34 }}>Messages</div>
           <button className="iconbtn ghost"><Plus s={18} /></button>
         </div>
         <div className="pad">
@@ -182,7 +182,7 @@ export function Wallet({ nav }) {
     <>
       <StatusBar />
       <div className="body">
-        <div className="app-h"><div className="h-mega ovp2" style={{ fontSize: 34 }}>Wallet</div>
+        <div className="app-h"><div className="h-mega" style={{ fontSize: 34 }}>Wallet</div>
           <button className="iconbtn ghost"><Plus s={18} /></button>
         </div>
         <div className="pad" style={{ paddingBottom: 20 }}>

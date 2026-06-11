@@ -7,7 +7,6 @@ import {
   CatTag2, Pill, ArrowBtn, CardHead, CrowdChart, CapWeek, AlertCard,
   EventCard2, EventRow2, CategoryDeck,
 } from '../ui2'
-import { Marquee } from '../../ui'
 import { Search as SearchIc, Bell, Flash, Pin, Filter, Clock, Users, Star, Arrow, Mic, Heart, Check } from '../icons2'
 
 const CATLIST = Object.entries(CATS).map(([id, c]) => ({ id, ...c }))
@@ -81,10 +80,7 @@ export function Home({ nav, ctx }) {
             <div className="ai-bubble" style={{ marginBottom: 12 }}>
               Hi Samuel — <span className="ind">4 events</span> match your crew tonight. Want me to plan a route that ends at <b>After Dark</b>?
             </div>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              <span className="ai-chip go">⚡ Plan my night</span>
-              <span className="ai-chip">Who's going?</span>
-            </div>
+            <span className="ai-chip go">⚡ Plan my night</span>
           </button>
 
           {/* crowd capacity block */}
@@ -111,13 +107,7 @@ export function Home({ nav, ctx }) {
           {/* hot tonight */}
           <div className="sec2"><span className="t">Don't miss</span><button className="lab" onClick={() => nav('explore')} style={{ color: 'var(--ind-2)' }}>SEE ALL</button></div>
           <EventCard2 ev={hot} nav={nav} saved={ctx.saved.has(hot.id)} onSave={ctx.toggle} />
-        </div>
 
-        {/* ✦ ticker strip — the street DNA */}
-        <Marquee style={{ marginTop: 18, transform: 'rotate(-1.5deg) scale(1.04)' }}
-          words={['TONIGHT', 'NEAR YOU', 'SCAN ANYTHING', 'LIVING DATABASE', 'WE KNOW WHERE']} dur={20} />
-
-        <div className="pad" style={{ display: 'grid', gap: 14, marginTop: 18 }}>
           {/* near you map */}
           <div className="block mint" style={{ padding: 0, overflow: 'hidden' }}>
             <div style={{ position: 'relative', height: 188 }}>
@@ -135,7 +125,7 @@ export function Home({ nav, ctx }) {
           </div>
 
           {/* this weekend */}
-          <div className="sec2"><span className="t">This weekend</span><span className="hand" style={{ fontSize: 19, color: 'var(--acid)', transform: 'rotate(-2deg)' }}>don't sleep on it ✦</span></div>
+          <div className="sec2"><span className="t">This weekend</span><span className="lab">SAT – SUN</span></div>
           <div style={{ display: 'grid', gap: 14 }}>
             {list.slice(5, 7).map((e) => <EventCard2 key={e.id} ev={e} nav={nav} saved={ctx.saved.has(e.id)} onSave={ctx.toggle} />)}
           </div>
@@ -165,7 +155,7 @@ export function Explore({ nav }) {
     <>
       <StatusBar />
       <div className="body">
-        <div className="app-h"><div className="h-mega ovp2" style={{ fontSize: 34 }}>Categories</div>
+        <div className="app-h"><div className="h-mega" style={{ fontSize: 34 }}>Categories</div>
           <button className="iconbtn ghost" onClick={() => nav('map')}><Pin s={18} /></button>
         </div>
         <div className="pad" style={{ display: 'grid', gap: 16 }}>
@@ -174,7 +164,7 @@ export function Explore({ nav }) {
             <Filter s={18} />
           </button>
 
-          <div className="sec2"><span className="t">Pick a scene</span><span className="hand" style={{ fontSize: 19, color: 'var(--muted)' }}>tap to open</span></div>
+          <div className="sec2"><span className="t">Pick a scene</span><span className="lab">4 SCENES</span></div>
           <CategoryDeck tiers={tiers} nav={nav} />
 
           <div className="sec2"><span className="t">Trending now</span></div>
@@ -308,7 +298,6 @@ export function Detail({ nav, params, ctx }) {
             <button className="iconbtn ghost" onClick={() => nav('back')}><Arrow s={18} style={{ transform: 'rotate(180deg)' }} /></button>
             <button className="iconbtn ghost"><Users s={17} /></button>
           </div>
-          {ev.hot && <span className="stamp2" style={{ position: 'absolute', right: 16, bottom: 56, color: 'var(--acid)', zIndex: 3 }}>SELLING FAST ✦</span>}
         </div>
 
         <div className="pad" style={{ paddingBottom: 120, marginTop: 6 }}>

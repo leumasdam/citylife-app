@@ -16,7 +16,7 @@ export function Saved({ nav, ctx }) {
     <>
       <StatusBar />
       <div className="body">
-        <div className="app-h"><div className="h-mega ovp2" style={{ fontSize: 34 }}>Your list</div>
+        <div className="app-h"><div className="h-mega" style={{ fontSize: 34 }}>Your list</div>
           <button className="iconbtn ghost" onClick={() => nav('tickets')}><Ticket s={18} /></button>
         </div>
         <div className="pad">
@@ -86,7 +86,7 @@ export function TicketPass({ nav, params }) {
           <span style={{ width: 38 }} />
         </div>
         <div className="pad center" style={{ paddingTop: 6 }}>
-          <div className="tilt" style={{ '--rot': '-1.4deg', background: 'var(--paper)', color: '#0b0b0d', borderRadius: 24, width: '100%', overflow: 'hidden', boxShadow: '0 30px 60px -20px rgba(0,0,0,.5)', position: 'relative' }}>
+          <div style={{ background: 'var(--paper)', color: '#0b0b0d', borderRadius: 24, width: '100%', overflow: 'hidden', boxShadow: '0 30px 60px -20px rgba(0,0,0,.5)', position: 'relative' }}>
             <span className="stamp2" style={{ position: 'absolute', top: 18, right: 14, color: 'var(--coral)', zIndex: 5 }}>ADMIT ONE ✦</span>
             <div style={{ padding: '20px 20px 14px' }}>
               <div className="mono" style={{ fontSize: 11, color: 'var(--ind)', letterSpacing: '.1em' }}>CITYLIFE · ENTRY</div>
@@ -109,7 +109,7 @@ export function TicketPass({ nav, params }) {
             </div>
             <div className="barcode2" style={{ margin: '0 20px 18px' }} />
           </div>
-          <p className="hand" style={{ color: 'rgba(255,255,255,.9)', fontSize: 21, marginTop: 18, textAlign: 'center', transform: 'rotate(-1.5deg)' }}>show this at the door ✦ brightness boosts itself</p>
+          <p style={{ color: 'rgba(255,255,255,.85)', fontSize: 13, marginTop: 18, textAlign: 'center' }}>Show this at the door — brightness boosts automatically.</p>
         </div>
       </div>
       <HomeBar dark />
@@ -120,7 +120,7 @@ export function TicketPass({ nav, params }) {
 const CONFETTI = Array.from({ length: 16 }, (_, i) => {
   const ang = (i / 16) * Math.PI * 2 + (i % 3) * 0.4
   const dist = 120 + (i % 5) * 26
-  const colors = ['#c3f53e', 'var(--acid)', 'var(--coral)', '#fff', 'var(--ind-2)']
+  const colors = ['var(--sky)', 'var(--acid)', 'var(--coral)', '#fff', 'var(--ind-2)']
   return { x: Math.cos(ang) * dist, y: Math.sin(ang) * dist - 40, c: colors[i % colors.length], r: (i % 4) * 120, d: 0.35 + (i % 6) * 0.05 }
 })
 export function Checkin({ nav }) {
