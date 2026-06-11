@@ -53,7 +53,7 @@ function StreetLamp() {
 export function Splash() {
   return (
     <>
-      <StatusBar light />
+      <div style={{ background: '#6e70f4' }}><StatusBar /></div>
       <div className="body center" style={{ overflow: 'hidden', position: 'relative', background: 'linear-gradient(180deg, #6e70f4 0%, #4243c0 100%)' }}>
         {/* nightfall layer cross-fades over the day sky */}
         <motion.div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, #070b30 0%, #02030f 100%)' }}
@@ -81,7 +81,7 @@ export function Splash() {
           <div className="mono" style={{ fontSize: 10.5, color: 'rgba(255,255,255,.75)', letterSpacing: '.22em' }}>LOADING TONIGHT…</div>
         </motion.div>
       </div>
-      <HomeBar dark />
+      <HomeBar />
     </>
   )
 }

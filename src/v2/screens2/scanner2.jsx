@@ -72,7 +72,7 @@ export function ScanResult({ nav }) {
               <div style={{ fontSize: 12.5, color: 'var(--muted)', marginTop: 2 }}>Live database · {list.length} events tonight</div>
             </div>
           </div>
-          <div className="chiprow" style={{ marginBottom: 12 }}>
+          <div className="chiprow" style={{ marginBottom: 12, flexWrap: 'wrap', overflowX: 'visible' }}>
             {SCAN_FILTERS.map((t, i) => <button key={t} className={`chip ${i === f ? 'blue' : ''}`} onClick={() => setF(i)}>{i === f && <Check s={13} />}{t}</button>)}
           </div>
           <div className="scan-list">

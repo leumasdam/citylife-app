@@ -18,7 +18,7 @@ export const SCREENS2 = {
   home:          { C: Home,         t: 'Dashboard',        d: 'Tonight, crowd levels, AI lead.', tab: 'home' },
   aiplanner:     { C: AIPlanner,    t: 'AI Night Lead',    d: 'Your concierge plans the night.' },
   swipe:         { C: Swipe,        t: 'Swipe deck',       d: 'Find tonight with your crew.' },
-  explore:       { C: Explore,      t: 'Explore',          d: 'Categories as living art tiles.', tab: 'explore' },
+  explore:       { C: Explore,      t: 'Explore',          d: 'Stacked category deck + trending.', tab: 'explore' },
   map:           { C: MapView,      t: 'Map',              d: 'Events around you, on a map.', tab: 'explore' },
   search:        { C: Search,       t: 'Search & filter',  d: 'Find events, venues, artists.' },
   detail:        { C: Detail,       t: 'Event detail',     d: 'Crowd forecast, lineup, route.', p: { id: 'dnb' } },

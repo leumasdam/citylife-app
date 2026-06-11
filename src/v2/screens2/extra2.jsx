@@ -188,7 +188,6 @@ export function Wallet({ nav }) {
         <div className="pad" style={{ paddingBottom: 20 }}>
           {/* credits card — coral revenue block */}
           <div className="block coral" style={{ marginBottom: 22 }}>
-            <div style={{ position: 'absolute', right: -24, top: -16, opacity: .16 }}><img src="./brand/logo-black.png" style={{ width: 160 }} alt="" /></div>
             <div className="lab" style={{ color: 'rgba(0,0,0,.55)' }}>CITYLIFE CREDITS</div>
             <div className="h-mega" style={{ fontSize: 44, marginTop: 8 }}>34.00€</div>
             <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>

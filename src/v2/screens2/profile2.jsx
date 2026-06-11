@@ -11,17 +11,17 @@ export function Curated({ nav }) {
   const fan = list.slice(0, 3)
   return (
     <>
-      <StatusBar light />
+      <div style={{ background: 'var(--ind)' }}><StatusBar /></div>
       <div className="body screen-indigo" style={{ color: '#fff' }}>
-        <div className="row-between" style={{ padding: '4px 18px 4px' }}>
+        <div className="row-between" style={{ padding: '8px 18px 4px' }}>
           <button className="iconbtn ghost" onClick={() => nav('back')}><Arrow s={18} style={{ transform: 'rotate(180deg)' }} /></button>
           <div className="vbadge acid">EDITOR'S COLLECTION</div>
           <span style={{ width: 38 }} />
         </div>
 
         {/* editorial hero — clean type, the posters fan below (no text-on-poster clash) */}
-        <div className="pad" style={{ paddingTop: 20, textAlign: 'center' }}>
-          <h1 className="h-mega" style={{ fontSize: 50 }}>Society<br />Is Healing</h1>
+        <div className="pad" style={{ paddingTop: 22, textAlign: 'center' }}>
+          <h1 className="h-mega" style={{ fontSize: 42 }}>Society<br />Is Healing</h1>
           <p style={{ fontSize: 14, marginTop: 14, color: 'rgba(255,255,255,.82)', maxWidth: 290, margin: '14px auto 0' }}>The nights putting the city back together.</p>
           <p className="hand" style={{ fontSize: 26, color: 'var(--acid)', marginTop: 6, transform: 'rotate(-2deg)' }}>we know where ✦</p>
 
@@ -51,7 +51,7 @@ export function Curated({ nav }) {
           </div>
         </div>
       </div>
-      <HomeBar dark />
+      <HomeBar />
     </>
   )
 }

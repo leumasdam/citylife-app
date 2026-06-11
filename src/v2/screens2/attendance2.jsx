@@ -78,7 +78,7 @@ export function TicketPass({ nav, params }) {
   const ev = byId(params?.id) || byId('soc-heal')
   return (
     <>
-      <StatusBar light />
+      <div style={{ background: 'var(--ind)' }}><StatusBar /></div>
       <div className="body screen-indigo" style={{ color: '#fff' }}>
         <div className="row-between" style={{ padding: '4px 18px 12px' }}>
           <button className="iconbtn ghost" onClick={() => nav('back')}><Arrow s={18} style={{ transform: 'rotate(180deg)' }} /></button>
@@ -112,7 +112,7 @@ export function TicketPass({ nav, params }) {
           <p style={{ color: 'rgba(255,255,255,.85)', fontSize: 13, marginTop: 18, textAlign: 'center' }}>Show this at the door — brightness boosts automatically.</p>
         </div>
       </div>
-      <HomeBar dark />
+      <HomeBar />
     </>
   )
 }
@@ -128,10 +128,10 @@ export function Checkin({ nav }) {
   const fadeUp = { h: { opacity: 0, y: 16 }, s: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }
   return (
     <>
-      <StatusBar light />
+      <div style={{ background: 'var(--ind)' }}><StatusBar /></div>
       <div className="body center screen-indigo" style={{ textAlign: 'center', padding: 24, overflow: 'hidden', color: '#fff' }}>
         {/* hand note pinned to the very top of the screen */}
-        <motion.p className="hand" style={{ position: 'absolute', top: 10, left: 0, right: 0, textAlign: 'center', fontSize: 25, transform: 'rotate(-1.5deg)' }}
+        <motion.p className="hand" style={{ position: 'absolute', top: 44, left: 0, right: 0, textAlign: 'center', fontSize: 25, transform: 'rotate(-1.5deg)' }}
           initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 0.5 }}>
           have the night of your life ✦
         </motion.p>
@@ -159,7 +159,7 @@ export function Checkin({ nav }) {
       <div className="dock" style={{ background: 'linear-gradient(to top, var(--ind) 60%, transparent)' }}>
         <button className="btn btn-white" onClick={() => nav('home')}>Back to tonight</button>
       </div>
-      <HomeBar dark />
+      <HomeBar />
     </>
   )
 }
