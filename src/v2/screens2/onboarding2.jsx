@@ -9,51 +9,69 @@ import { Arrow, Pin, Check, Heart, Flash } from '../icons2'
 const fadeUp = { h: { opacity: 0, y: 18 }, s: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }
 const EASE = [0.22, 1, 0.36, 1]
 
-/* =========================== SPLASH — the scan cycle ===========================
-   The app scans the city, so the splash scans its own logo: a reticle locks on,
-   a beam sweeps through, the logo lights up as it passes and the tagline
-   confirms — "city recognised". Then it loops. */
-const SCAN_CYCLE = 3.6
-const scanT = { duration: SCAN_CYCLE, repeat: Infinity, ease: 'easeInOut' }
+/* =========================== SPLASH — day → night street lamp ===========================
+   One full day → night → day loop. The sky darkens first; the street lamp only
+   switches on once night has fallen, then goes out again before daybreak.
+   (Indigo-tinted v1 cycle. Alternative "scan" splash is parked in splash-scan.jsx.) */
+const CYCLE = 8.2
+const skyFall = { duration: CYCLE, repeat: Infinity, ease: 'easeInOut', times: [0, 0.22, 0.8, 1] }
+const lampOn = { duration: CYCLE, repeat: Infinity, ease: 'easeInOut', times: [0, 0.2, 0.32, 0.74, 0.84] }
+
+function StreetLamp() {
+  return (
+    <svg viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" aria-hidden
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+      <defs>
+        <radialGradient id="lampGlow2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffe6a6" stopOpacity="0.95" />
+          <stop offset="32%" stopColor="#ffc257" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="#ffc257" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="lampCone2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffd98a" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#ffd98a" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {/* warm halo + light cone — softened so the logo stays the hero */}
+      <motion.ellipse cx="250" cy="208" rx="250" ry="250" fill="url(#lampGlow2)" initial={{ opacity: 0 }} animate={{ opacity: [0, 0, 0.55, 0.55, 0] }} transition={lampOn} />
+      <motion.polygon points="241,206 261,206 360,640 150,640" fill="url(#lampCone2)" initial={{ opacity: 0 }} animate={{ opacity: [0, 0, 0.45, 0.45, 0] }} transition={lampOn} />
+      {/* pole + shepherd's-crook arm — quiet silhouette, the logo is the hero */}
+      <g opacity="0.45">
+        <g stroke="#1c1d66" strokeWidth="5.5" fill="none" strokeLinecap="round">
+          <line x1="302" y1="844" x2="302" y2="248" />
+          <path d="M302 248 Q302 198 256 196" />
+        </g>
+        <rect x="290" y="828" width="24" height="16" rx="2" fill="#1c1d66" />
+        <path d="M243 195 L269 195 L264 221 L248 221 Z" fill="#1c1d66" />
+      </g>
+      {/* warm core that switches on */}
+      <motion.path d="M247 199 L265 199 L261 218 L251 218 Z" fill="#ffe6a6" initial={{ opacity: 0 }} animate={{ opacity: [0, 0, 1, 1, 0] }} transition={lampOn} />
+    </svg>
+  )
+}
 
 export function Splash() {
   return (
     <>
       <StatusBar light />
-      <div className="body center screen-indigo" style={{ overflow: 'hidden', position: 'relative' }}>
-        <div className="stack" style={{ alignItems: 'center', gap: 26, position: 'relative', zIndex: 2 }}>
-          {/* reticle locked on the logo */}
-          <motion.div style={{ position: 'relative', width: 290, padding: '36px 0', display: 'grid', placeItems: 'center' }}
-            initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.7, ease: EASE }}>
-            <motion.div style={{ position: 'absolute', inset: 0 }}
-              animate={{ scale: [1, 1.03, 1] }} transition={{ duration: SCAN_CYCLE, repeat: Infinity, ease: 'easeInOut' }}>
-              {[
-                { top: 0, left: 0, borderWidth: '2.5px 0 0 2.5px', borderRadius: '10px 0 0 0' },
-                { top: 0, right: 0, borderWidth: '2.5px 2.5px 0 0', borderRadius: '0 10px 0 0' },
-                { bottom: 0, left: 0, borderWidth: '0 0 2.5px 2.5px', borderRadius: '0 0 0 10px' },
-                { bottom: 0, right: 0, borderWidth: '0 2.5px 2.5px 0', borderRadius: '0 0 10px 0' },
-              ].map((s, i) => <span key={i} style={{ position: 'absolute', width: 30, height: 30, borderStyle: 'solid', borderColor: 'rgba(255,255,255,.85)', ...s }} />)}
-            </motion.div>
-            {/* the logo lights up as the beam passes over it */}
-            <motion.img src="./brand/logo-white.png" alt="CITYLIFE"
-              style={{ width: 226, filter: 'drop-shadow(0 6px 30px rgba(0,0,0,.25))' }}
-              animate={{ filter: ['brightness(1)', 'brightness(1)', 'brightness(1.45) drop-shadow(0 0 24px rgba(255,255,255,.55))', 'brightness(1)', 'brightness(1)'] }}
-              transition={{ ...scanT, times: [0, 0.14, 0.3, 0.5, 1] }} />
-            {/* scan beam sweeps the reticle */}
-            <motion.div style={{ position: 'absolute', left: 8, right: 8, height: 3, borderRadius: 3, background: 'var(--coral)', boxShadow: '0 0 16px 2px var(--coral)' }}
-              animate={{ top: ['2%', '96%'], opacity: [0, 1, 1, 0] }} transition={{ ...scanT, times: [0.06, 0.14, 0.42, 0.5] }} />
+      <div className="body center" style={{ overflow: 'hidden', position: 'relative', background: 'linear-gradient(180deg, #6e70f4 0%, #4243c0 100%)' }}>
+        {/* nightfall layer cross-fades over the day sky */}
+        <motion.div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, #070b30 0%, #02030f 100%)' }}
+          initial={{ opacity: 0 }} animate={{ opacity: [0, 1, 1, 0] }} transition={skyFall} />
+        <StreetLamp />
+        <motion.div
+          style={{ position: 'absolute', width: 440, height: 440, borderRadius: '50%', border: '1.5px dashed rgba(255,255,255,.14)' }}
+          animate={{ rotate: 360 }} transition={{ duration: 42, repeat: Infinity, ease: 'linear' }} />
+        <div className="stack" style={{ alignItems: 'center', gap: 18, position: 'relative', zIndex: 2 }}>
+          <motion.img
+            className="splash-float" src="./brand/logo-white.png" alt="CITYLIFE" style={{ width: 232, filter: 'drop-shadow(0 6px 30px rgba(0,0,0,0.25))' }}
+            initial={{ scale: 0.6, opacity: 0, y: 8 }}
+            animate={{ scale: [0.6, 1.06, 1], opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE, times: [0, 0.7, 1] }} />
+          <motion.div className="mono" style={{ fontSize: 11, color: 'rgba(255,255,255,.85)', letterSpacing: '0.3em' }}
+            initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }}>
+            THE CITY, SCANNABLE
           </motion.div>
-          {/* tagline ⇄ confirmation, synced to each pass */}
-          <div style={{ position: 'relative', height: 16 }}>
-            <motion.div className="mono" style={{ fontSize: 11, color: 'rgba(255,255,255,.85)', letterSpacing: '.3em', whiteSpace: 'nowrap' }}
-              animate={{ opacity: [1, 1, 0, 0, 1] }} transition={{ ...scanT, times: [0, 0.5, 0.56, 0.88, 0.96] }}>
-              THE CITY, SCANNABLE
-            </motion.div>
-            <motion.div className="mono" style={{ position: 'absolute', inset: 0, fontSize: 11, color: 'var(--acid)', letterSpacing: '.3em', textAlign: 'center', whiteSpace: 'nowrap' }}
-              animate={{ opacity: [0, 0, 1, 1, 0] }} transition={{ ...scanT, times: [0, 0.5, 0.56, 0.88, 0.96] }}>
-              ✦ CITY RECOGNISED
-            </motion.div>
-          </div>
         </div>
         <motion.div style={{ position: 'absolute', bottom: 64, left: 0, right: 0, display: 'grid', placeItems: 'center', gap: 13, zIndex: 2 }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
